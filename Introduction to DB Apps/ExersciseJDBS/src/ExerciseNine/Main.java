@@ -16,8 +16,17 @@ public class Main {
 
         connection = ConnectorManager
                 .getConnection("minions_db");
-
-
+//TODO: Create a procedure before starting the program
+//DELIMITER &&
+//
+//      CREATE PROCEDURE usp_get_older (minions_id INT)
+//           BEGIN
+//            UPDATE minions
+//                       SET age = age + 1
+//         WHERE id = minions_id;
+//        END &&
+//
+//     DELIMITER ;
         System.out.println("Enter minions id:");
 
         int id = Integer.parseInt(reader.readLine());
