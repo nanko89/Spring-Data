@@ -6,7 +6,7 @@ import annotations.Id;
 
 import java.time.LocalDate;
 
-@Entity(name = "user")
+@Entity(name = "users")
 public class User {
     @Id
     @Column(name = "id")
