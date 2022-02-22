@@ -21,6 +21,10 @@ public class User {
     @Column(name = "registration")
     private LocalDate registration;
 
+    @Column(name = "last_logged_in")
+    private LocalDate lastLoggedIn;
+
+
     public User(String username, int age, LocalDate registration) {
         this.username = username;
         this.age = age;
@@ -57,5 +61,13 @@ public class User {
 
     public void setRegistration(LocalDate registration) {
         this.registration = registration;
+    }
+
+    public LocalDate getLastLoggedIn() {
+        return lastLoggedIn;
+    }
+
+    public void setLastLoggedIn(LocalDate lastLoggedIn) {
+        this.lastLoggedIn = lastLoggedIn;
     }
 }
