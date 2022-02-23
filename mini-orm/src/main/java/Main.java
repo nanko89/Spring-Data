@@ -1,4 +1,3 @@
-import entitties.Addresses;
 import entitties.User;
 import orm.EntityManager;
 
@@ -32,8 +31,7 @@ public class Main {
         Iterable<User> users = userEntityManager.find(User.class, "id < 5");
         System.out.println(users.toString());
 
-        EntityManager<Addresses> addressesEntityManager = new EntityManager<>(connection);
-        addressesEntityManager.doCreate(Addresses.class);
+
 
     }
 
