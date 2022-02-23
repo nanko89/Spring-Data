@@ -30,27 +30,27 @@ public class EntityManager<E> implements DbContext<E> {
 
         String queryDoAlter = String.format("ALTER TABLE %s %s;", tableName,addColumnStatement );
 
-        PreparedStatement statement = connection.prepareStatement(queryDoAlter);
-
-        statement.execute();
+        statementExecute(queryDoAlter);
     }
 
     @Override
     public void doCreate(Class<E> entityClass) throws SQLException {
-        String getTableName = getTableName(entityClass);
+        String tableName = getTableName(entityClass);
+        
         String fieldsWithTypes = getSQLFieldsWithTypes(entityClass);
+        
         String queryCreteTable = String.format
                 ("CREATE TABLE %s " +
                         "(id INT PRIMARY KEY AUTO_INCREMENT," +
-                        "%s);", getTableName, fieldsWithTypes);
-        PreparedStatement ps = connection.prepareStatement(queryCreteTable);
-
-        ps.execute();
+                        "%s);", tableName, fieldsWithTypes);
+        
+        statementExecute(queryCreteTable);
     }
 
     @Override
     public boolean persist(E entity) throws IllegalAccessException, SQLException {
         Field primaryKey = getIdColumn(entity.getClass());
+        
         primaryKey.setAccessible(true);
 
         Object value = primaryKey.get(entity);
@@ -58,6 +58,7 @@ public class EntityManager<E> implements DbContext<E> {
         if (value == null || (long) value <= 0) {
             return doInsert(entity, primaryKey);
         }
+        
         return doUpdate(entity, primaryKey);
     }
 
@@ -92,21 +93,30 @@ public class EntityManager<E> implements DbContext<E> {
     }
 
     @Override
-    public E findFirst(Class<E> table) throws SQLException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public E findFirst(Class<E> table) throws SQLException, NoSuchMethodException, 
+            IllegalAccessException, InvocationTargetException, InstantiationException {
         return findFirst(table,null);
     }
 
     @Override
-    public E findFirst(Class<E> table, String where) throws SQLException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public E findFirst(Class<E> table, String where) throws SQLException, NoSuchMethodException, 
+            InvocationTargetException, InstantiationException, IllegalAccessException {
+        
         String tableName = getTableName(table);
+        
         String selectFirstQuery = String.format
                 ("SELECT * FROM %s %s LIMIT 1;", tableName, where != null ? "WHERE " + where : "");
-        ResultSet resultSet = connection.prepareStatement(selectFirstQuery).executeQuery();
+        
+        PreparedStatement statement = connection.prepareStatement(selectFirstQuery);
+        
+        ResultSet resultSet = statement.executeQuery();
 
         resultSet.next();
 
         E entity = table.getDeclaredConstructor().newInstance();
+        
         fillingEntity(table, resultSet, entity);
+        
         return entity;
     }
 
@@ -115,14 +125,16 @@ public class EntityManager<E> implements DbContext<E> {
 
         String tableFieldAndValue = String.join(", ", getColumnNameAndValue(entity));
 
-        String updateQuery = String.format("UPDATE %s SET %s WHERE id = %s;", tableName, tableFieldAndValue, primaryKey.get(entity));
+        String updateQuery = String.format("UPDATE %s SET %s WHERE id = %s;",
+                tableName, tableFieldAndValue, primaryKey.get(entity));
 
-        return connection.prepareStatement(updateQuery).execute();
+        return statementExecute(updateQuery);
     }
 
     private boolean doInsert(E entity, Field primaryKey) throws SQLException, IllegalAccessException {
+        
         String tableName = getTableName(entity.getClass());
-
+        
         String tableFields = String.join(", ", getColumnsWithoutId(entity.getClass()));
 
         String tableValues = String.join(", ", getColumnsValuesWithoutId(entity));
@@ -130,8 +142,9 @@ public class EntityManager<E> implements DbContext<E> {
         String insertQuery = String.format("INSERT INTO %s (%s) VALUES (%s);",
                 tableName, tableFields, tableValues);
 
-        return connection.prepareStatement(insertQuery).execute();
+        return statementExecute(insertQuery);
     }
+
 
     @Override
     public boolean delete(E toDelete) throws IllegalAccessException, SQLException {
@@ -148,9 +161,7 @@ public class EntityManager<E> implements DbContext<E> {
         String queryDelete = String.format("DELETE FROM %s WHERE %s = %s",
                 tableName, idColumnName, idColumnValue );
 
-        PreparedStatement statement = connection.prepareStatement(queryDelete);
-
-       return statement.execute();
+        return statementExecute(queryDelete);
     }
 
     private Field getIdColumn(Class<?> entity) {
@@ -259,20 +270,27 @@ public class EntityManager<E> implements DbContext<E> {
             sqlType = "VARCHAR(200)";
         } else if (type == LocalDate.class) {
             sqlType = "DATE";
+        }else if (type == Long.class || type == long.class){
+            sqlType = "LONG";
         }
         return sqlType;
     }
 
-    private void fillingEntity(Class<E> table, ResultSet resultSet, E entity) throws SQLException, IllegalAccessException {
+    private void fillingEntity(Class<E> table, ResultSet resultSet, E entity) throws SQLException,
+            IllegalAccessException {
         Field[] fields = table.getDeclaredFields();
+
         for (Field field : fields) {
             field.setAccessible(true);
             fillField(field, resultSet, entity);
         }
     }
 
-    private void fillField(Field declaredField, ResultSet resultSet, E entity) throws SQLException, IllegalAccessException {
+    private void fillField(Field declaredField, ResultSet resultSet, E entity) throws SQLException,
+            IllegalAccessException {
+
         Class<?> fieldType = declaredField.getType();
+
         String fieldName = declaredField.getAnnotationsByType(Column.class)[0].name();
 
         if (fieldType == int.class || fieldType == Integer.class) {
@@ -326,14 +344,21 @@ public class EntityManager<E> implements DbContext<E> {
                 " AND TABLE_NAME = 'users';";
 
         PreparedStatement preparedStatement = connection.prepareStatement(schemaQuery);
+
         ResultSet resultSet = preparedStatement.executeQuery();
 
         Set<String> result = new HashSet<>();
         while (resultSet.next()){
             String columnName = resultSet.getString("COLUMN_NAME");
             result.add(columnName);
-
         }
+
         return result;
+    }
+
+    private boolean statementExecute(String insertQuery) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(insertQuery);
+
+        return statement.execute();
     }
 }
