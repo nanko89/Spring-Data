@@ -25,10 +25,13 @@ public class User {
     private LocalDate lastLoggedIn;
 
 
+    public User(){}
+
     public User(String username, int age, LocalDate registration) {
         this.username = username;
         this.age = age;
         this.registration = registration;
+        this.lastLoggedIn = LocalDate.now();
     }
 
     public long getId() {
@@ -69,5 +72,16 @@ public class User {
 
     public void setLastLoggedIn(LocalDate lastLoggedIn) {
         this.lastLoggedIn = lastLoggedIn;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", age=" + age +
+                ", registration=" + registration +
+                ", lastLoggedIn=" + lastLoggedIn +
+                '}';
     }
 }
