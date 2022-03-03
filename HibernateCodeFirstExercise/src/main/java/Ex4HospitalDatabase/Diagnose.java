@@ -9,6 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "diagnoses")
+
 public class Diagnose extends BasicEntity {
 
     @Column(name = "name", nullable = false)

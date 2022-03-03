@@ -10,7 +10,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "patients")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Patient extends BasicEntity {
 
     @Column(name = "first_name", nullable = false, length = 30)
