@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User extends BasicEntity {
+public class BankUser extends BasicEntity {
 
     @Column(name = "first_name", nullable = false, length = 30)
     private String firstName;
@@ -25,10 +25,10 @@ public class User extends BasicEntity {
     @Column(name = "billing_details", columnDefinition = "TEXT")
     private String billingDetails;
 
-    public User() {
+    public BankUser() {
     }
 
-    public User(String firstName, String lastName, String email, String password, String billingDetails) {
+    public BankUser(String firstName, String lastName, String email, String password, String billingDetails) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

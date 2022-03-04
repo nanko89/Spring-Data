@@ -1,7 +1,5 @@
 package Ex5BillsPaymentSystem;
 
-import entity.BasicEntity;
-
 import javax.persistence.*;
 
 @Entity
@@ -20,7 +18,7 @@ public class CreditCard extends BillingDetail {
     public CreditCard() {
     }
 
-    public CreditCard(String number, User owner, CardType cardType, int expirationMonth, int expirationYear) {
+    public CreditCard(String number, BankUser owner, CardType cardType, int expirationMonth, int expirationYear) {
         super(number, owner);
         this.cardType = cardType;
         this.expirationMonth = expirationMonth;

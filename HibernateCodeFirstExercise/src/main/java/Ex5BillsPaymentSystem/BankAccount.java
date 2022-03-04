@@ -18,7 +18,7 @@ public class BankAccount extends BillingDetail{
     public BankAccount() {
     }
 
-    public BankAccount(String number, User owner, String bankName, String SWIFT) {
+    public BankAccount(String number, BankUser owner, String bankName, String SWIFT) {
         super(number, owner);
         this.bankName = bankName;
         this.SWIFT = SWIFT;

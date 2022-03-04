@@ -18,18 +18,6 @@ public class Main {
 
         entityManager.getTransaction().begin();
 
-//        Patient patient = new Patient("Gosho","goshov", LocalDate.of(1990,5, 20),true);
-//        Diagnose diagnose = new Diagnose("dignose", "coment");
-//        Medicament medicament = new Medicament("name");
-//        Visitation visitation = new Visitation(LocalDate.now(), "coment");
-//
-//        entityManager.persist(patient);
-//        entityManager.persist(diagnose);
-//        entityManager.persist(medicament);
-//        entityManager.persist(visitation);
-
-
-
         entityManager.getTransaction().commit();
 
     }

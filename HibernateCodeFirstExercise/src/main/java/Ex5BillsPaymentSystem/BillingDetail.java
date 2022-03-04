@@ -13,12 +13,12 @@ public class BillingDetail extends BasicEntity {
     private String number;
 
     @ManyToOne
-    private User owner;
+    private BankUser owner;
 
     public BillingDetail() {
     }
 
-    public BillingDetail(String number, User owner) {
+    public BillingDetail(String number, BankUser owner) {
         this.number = number;
         this.owner = owner;
     }
@@ -31,11 +31,11 @@ public class BillingDetail extends BasicEntity {
         this.number = number;
     }
 
-    public User getOwner() {
+    public BankUser getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(BankUser owner) {
         this.owner = owner;
     }
 }
