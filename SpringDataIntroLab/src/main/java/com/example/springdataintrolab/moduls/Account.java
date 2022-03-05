@@ -7,10 +7,6 @@ import java.math.BigDecimal;
 @Table(name = "accounts")
 public class Account {
 
-//-	Id – long value, primary key
-//-	Balance – BigDecimal
-//-	User – an account can be owned by a single user
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,9 +20,8 @@ public class Account {
     public Account() {
     }
 
-    public Account(BigDecimal balance, User user) {
+    public Account(BigDecimal balance) {
         this.balance = balance;
-        this.user = user;
     }
 
     public Long getId() {

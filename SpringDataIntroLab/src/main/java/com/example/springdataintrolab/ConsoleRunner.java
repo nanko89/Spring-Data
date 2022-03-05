@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 
 @Component
 public class ConsoleRunner implements CommandLineRunner {
@@ -23,12 +24,15 @@ public class ConsoleRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User first = new User("gogo", 20 );
-        userService.registerUser(first);
+        User user = new User("demo", 20 );
 
-        Account account1 = new Account(BigDecimal.valueOf(50), first);
+        Account account = new Account(BigDecimal.valueOf(5000));
 
-        accountService.withdrawMoney(BigDecimal.valueOf(40), 3L);
+        account.setUser(user);
+        user.setAccount(new HashSet<>(){{add(account);}});
+        userService.registerUser(user);
+        accountService.withdrawMoney(BigDecimal.valueOf(1000), account.getId());
+        accountService.transferMoney(BigDecimal.valueOf(2000), account.getId());
 
     }
 }

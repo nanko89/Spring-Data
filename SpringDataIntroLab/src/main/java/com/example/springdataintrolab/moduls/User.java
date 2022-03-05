@@ -8,7 +8,7 @@ import java.util.Set;
 @Entity
 @Table(name =  "users")
 public class User {
-    //-	Accounts – each user can have many accounts, which will be identified by their id
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

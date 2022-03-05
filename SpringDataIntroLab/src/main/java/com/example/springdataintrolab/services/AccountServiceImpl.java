@@ -22,8 +22,8 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public void withdrawMoney(BigDecimal money, Long id) {
 
-        try {
-            Account account = accountRepository.findAccountById(id);
+
+            Account account = accountRepository.getById(id);
 
             int result = money.compareTo(account.getBalance());
 
@@ -36,9 +36,6 @@ public class AccountServiceImpl implements AccountService{
             }else if (account.getUser() == null){
                 System.out.println("Account with id " + id + " don't have user");
             }
-        }catch (Exception e){
-            System.out.println("Not find exist account!");
-        }
     }
 
     @Override
