@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
@@ -44,5 +46,14 @@ public class AuthorServiceImpl implements AuthorService {
         Long randomId = random.nextLong(1,31);
 
         return authorRepository.findById(randomId).orElse(null);
+    }
+
+    @Override
+    public List<String> getAllAuthorOrderByBooksCount() {
+        return authorRepository
+                .findAllByBooksSizeDESC()
+                .stream()
+                .map(a-> String.format("%s %s %d", a.getLastName(), a.getLastName(), a.getBooks().size()))
+                .collect(Collectors.toList());
     }
 }
