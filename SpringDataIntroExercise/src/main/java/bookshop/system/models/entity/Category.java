@@ -4,6 +4,7 @@ import bookshop.system.models.entity.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import java.util.Objects;
 
 @Entity(name = "categories")
 public class Category extends BaseEntity {
@@ -26,4 +27,16 @@ public class Category extends BaseEntity {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(name, category.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }
