@@ -1,0 +1,29 @@
+package bookshop.system.models.entity;
+
+import bookshop.system.models.entity.BaseEntity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity(name = "categories")
+public class Category extends BaseEntity {
+
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    public Category() {
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+}
