@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity(name = "authors")
-public class Author extends BaseEntity{
+public class Author extends BaseEntity {
 
     @Column(name = "first_name")
     private String firstName;

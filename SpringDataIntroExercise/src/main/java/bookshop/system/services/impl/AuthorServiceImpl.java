@@ -1,7 +1,8 @@
-package bookshop.system.services;
+package bookshop.system.services.impl;
 
 import bookshop.system.models.entity.Author;
 import bookshop.system.repositories.AuthorRepository;
+import bookshop.system.services.AuthorService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

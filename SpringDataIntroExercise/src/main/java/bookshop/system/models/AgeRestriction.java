@@ -1,4 +1,4 @@
-package bookshop.system.models.entity;
+package bookshop.system.models;
 
 public enum AgeRestriction {
     MINOR,

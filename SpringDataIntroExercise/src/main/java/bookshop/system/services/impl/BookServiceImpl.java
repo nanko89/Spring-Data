@@ -1,7 +1,13 @@
-package bookshop.system.services;
+package bookshop.system.services.impl;
 
-import bookshop.system.models.entity.*;
+import bookshop.system.models.*;
+import bookshop.system.models.entity.Author;
+import bookshop.system.models.entity.Book;
+import bookshop.system.models.entity.Category;
 import bookshop.system.repositories.BookRepository;
+import bookshop.system.services.AuthorService;
+import bookshop.system.services.BookService;
+import bookshop.system.services.CategoryService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -16,7 +22,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class BookServiceImpl implements BookService{
+public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final AuthorService authorService;
@@ -54,8 +60,13 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public List<Book> findAllAuthorsWithBookReleaseDateBeforeYear(int year) {
-        return bookRepository.findAllByReleaseDateBefore(LocalDate.of(year, 1, 1));
+    public List<String> findAllAuthorsWithBookReleaseDateBeforeYear(int year) {
+        return bookRepository.findAllByReleaseDateBefore(LocalDate.of(year, 1, 1))
+                .stream()
+                .map(book -> String.format("%s %s",
+                        book.getAuthor().getFirstName(), book.getAuthor().getLastName()))
+                .distinct().
+                collect(Collectors.toList());
     }
 
     @Override

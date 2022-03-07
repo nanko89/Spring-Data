@@ -1,7 +1,5 @@
 package bookshop.system.models.entity;
 
-import bookshop.system.models.entity.BaseEntity;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.util.Objects;

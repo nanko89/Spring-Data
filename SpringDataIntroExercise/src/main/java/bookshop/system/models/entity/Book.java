@@ -1,15 +1,16 @@
 package bookshop.system.models.entity;
 
+import bookshop.system.models.AgeRestriction;
+import bookshop.system.models.EditionType;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity(name = "books")
-public class Book extends BaseEntity{
-//title (between 1...50 symbols), description (optional, up to 1000 symbols), edition type
-// (NORMAL, PROMO or GOLD), price, copies, release date (optional), age restriction (MINOR, TEEN or ADULT)
+public class Book extends BaseEntity {
+
     @Column(name = "title", nullable = false, length = 50)
     private String title;
 
@@ -123,4 +124,5 @@ public class Book extends BaseEntity{
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
+
 }
