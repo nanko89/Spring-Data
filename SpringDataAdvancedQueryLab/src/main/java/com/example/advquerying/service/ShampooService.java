@@ -14,4 +14,7 @@ public interface ShampooService {
     List<Shampoo> selectMoreExpensiveThan(BigDecimal price);
 
 
+    int countShampooByPrice(BigDecimal valueOf);
+
+    List<Shampoo> selectShampooByIngredientsCount(int count);
 }

@@ -8,7 +8,10 @@ import com.example.advquerying.service.ShampooService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -31,27 +34,48 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         this.ingredientService = ingredientService;
     }
 
-    @Override
+    @Transactional
     public void run(String... args) {
         //1.	Select Shampoos by Size
-//        this.shampooService.selectBySize(Size.MEDIUM)
-//                .forEach(System.out::println);
+        this.shampooService.selectBySize(Size.MEDIUM)
+                .forEach(System.out::println);
 
         //2.	Select Shampoos by Size or Label
-//        this.shampooService.selectBySizeOrLabelId(Size.MEDIUM, 10)
-//                .forEach(System.out::println);
+        this.shampooService.selectBySizeOrLabelId(Size.MEDIUM, 10)
+                .forEach(System.out::println);
 
         //3.	Select Shampoos by Price
-//        this.shampooService.selectMoreExpensiveThan(BigDecimal.valueOf(5))
-//                .forEach(System.out::println);
+        this.shampooService.selectMoreExpensiveThan(BigDecimal.valueOf(5))
+                .forEach(System.out::println);
 
         //4.	Select Ingredients by Name
-//        this.ingredientService.selectIngredientsByName("M")
-//                .forEach(ingredient -> System.out.println(ingredient.getName()));
-        //5.	Select Ingredients by Names
         this.ingredientService.selectIngredientsByName("M")
-//                .forEach(ingredient -> System.out.println(ingredient.getName()));
+                .forEach(ingredient -> System.out.println(ingredient.getName()));
 
+        //5.	Select Ingredients by Names
+        this.ingredientService.selectIngredientsInNames(List.of("Lavender", "Herbs", "Apple"))
+              .forEach(ingredient -> System.out.println(ingredient.getName()));
+
+       // 6.	Count Shampoos by Price
+        int shampoo = this.shampooService.countShampooByPrice(BigDecimal.valueOf(8.50));
+        System.out.println(shampoo);
+
+        //7.	Select Shampoos by Ingredients
+        this.shampooRepository.findByIngredientsNames(Set.of("Berry","Mineral-Collagen"))
+                .forEach(System.out::println);
+
+        //8.	Select Shampoos by Ingredients Count
+        this.shampooService.selectShampooByIngredientsCount(2)
+                .forEach(System.out::println);
+
+        //9.	Delete Ingredients by Name
+        this.ingredientService.deleteByName("Nettle");
+
+        //10.	Update Ingredients by Price
+        this.ingredientService.increasePriceByPercentage(0.1);
+
+        //11.	Update Ingredients by Names
+        this.ingredientService.increasePriceByGivenNames(0.1, Set.of("Cherry", "Berry"));
     }
 
     private void demo(){

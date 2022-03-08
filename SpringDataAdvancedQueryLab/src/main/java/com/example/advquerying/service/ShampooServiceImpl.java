@@ -1,6 +1,5 @@
 package com.example.advquerying.service;
 
-import com.example.advquerying.entities.Label;
 import com.example.advquerying.entities.Shampoo;
 import com.example.advquerying.entities.Size;
 import com.example.advquerying.repository.ShampooRepository;
@@ -34,5 +33,15 @@ public class ShampooServiceImpl implements ShampooService{
     @Override
     public List<Shampoo> selectMoreExpensiveThan(BigDecimal price) {
         return this.shampooRepository.findByPriceGreaterThanOrderByPriceDesc(price);
+    }
+
+    @Override
+    public int countShampooByPrice(BigDecimal price) {
+        return this.shampooRepository.countShampooByPriceLessThan(price);
+    }
+
+    @Override
+    public List<Shampoo> selectShampooByIngredientsCount(int count) {
+        return this.shampooRepository.findByIngredientCountLessThan(count);
     }
 }
