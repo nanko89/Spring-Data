@@ -19,7 +19,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findAllByReleaseDateBefore(LocalDate releaseDateBefore);
 
-    List<Book> findAllByAuthor_FirstNameAndAuthor_LastNameOrderByReleaseDateDescTitle(String author_firstName, String author_lastName);
+    List<Book> findAllByAuthor_FirstNameAndAuthor_LastName(String author_firstName, String author_lastName);
 
     List<Book> findAllByAgeRestrictionEquals(AgeRestriction ageRestriction);
 
@@ -31,4 +31,13 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findAllByReleaseDateNotInYear(String year);
 
    List<Book> findAllByReleaseDateBeforeOrReleaseDateAfter(LocalDate lower, LocalDate upper);
+
+   List<Book> findAllByTitleContaining(String title);
+
+   List<Book> findAllByAuthor_LastNameStartsWith(String lastName);
+
+   @Query("SELECT COUNT(b) FROM Book b where length(b.title) > :length")
+   int countBookByTitleLengthGreaterThan(int length);
+
+
 }

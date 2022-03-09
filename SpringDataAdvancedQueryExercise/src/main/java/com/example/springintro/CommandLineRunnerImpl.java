@@ -1,5 +1,6 @@
 package com.example.springintro;
 
+import com.example.springintro.model.entity.Author;
 import com.example.springintro.model.entity.Book;
 import com.example.springintro.service.AuthorService;
 import com.example.springintro.service.BookService;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Component
 public class CommandLineRunnerImpl implements CommandLineRunner {
@@ -60,18 +62,53 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
                 System.out.println("Enter date in the format dd-MM-yyyy:");
                 String dateStr = bufferedReader.readLine();
                 LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                bookService.findAllBooksReleaseBeforeDate(date)
+                        .forEach(System.out::println);
+                break;
+            case 6:
+                System.out.println("Enter symbol or string that ends the author's name:");
+                String endWith = bufferedReader.readLine();
+                authorService.findAllAuthorsFirstNameFinishWithString(endWith)
+                        .forEach(System.out::println);
+                break;
+            case 7:
+                System.out.println("Enter a symbol or string that is contained in the title of book:");
+                String input = bufferedReader.readLine();
+
+                bookService.findAllBooksThatContainsString(input)
+                        .forEach(System.out::println);
+                break;
+            case 8:
+                System.out.println("Enter string for beginning the author's last name:");
+                String startLastName =  bufferedReader.readLine();
+//                List<Author> authors = authorService
+//                        .findAuthorLastNameStartWithString(startLastName);
+//                for (Author author : authors) {
+//                   bookService.findAllBooksByAuthorFirstAndLastName(author.getFirstName(), author.getLastName())
+//                           .stream()
+//                           .map(b -> String.format("%s (%s %s)",
+//                                   b.getTitle(),b.getAuthor().getFirstName(), b.getAuthor().getLastName()))
+//                           .forEach(System.out::println);
+                bookService.findAllBooksByAuthorFirstNameStartWith(startLastName)
+                        .forEach(System.out::println);
+                break;
+            case 9:
+                System.out.println("Enter the minimum length of the book title:");
+                int length = Integer.parseInt(bufferedReader.readLine());
+
+                int countBooks = bookService.countAllBooksByTitleLongerThen(length);
+
+                System.out.println(countBooks);
+
+                break;
+            case 10:
+
         }
-
-
-        bookService.findAllBooksWithCurrentPrice(BigDecimal.valueOf(5), BigDecimal.valueOf(40))
-                .forEach(System.out::println);
-
-
     }
 
     private void printALlBooksByAuthorNameOrderByReleaseDate(String firstName, String lastName) {
         bookService
-                .findAllBooksByAuthorFirstAndLastNameOrderByReleaseDate(firstName, lastName)
+                .findAllBooksByAuthorFirstAndLastName(firstName, lastName)
                 .forEach(System.out::println);
     }
 

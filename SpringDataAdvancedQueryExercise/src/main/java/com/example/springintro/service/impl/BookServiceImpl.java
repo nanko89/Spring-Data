@@ -68,15 +68,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<String> findAllBooksByAuthorFirstAndLastNameOrderByReleaseDate(String firstName, String lastName) {
+    public List<Book> findAllBooksByAuthorFirstAndLastName(String firstName, String lastName) {
        return bookRepository
-                .findAllByAuthor_FirstNameAndAuthor_LastNameOrderByReleaseDateDescTitle(firstName, lastName)
-                .stream()
-                .map(book -> String.format("%s %s %d",
-                        book.getTitle(),
-                        book.getReleaseDate(),
-                        book.getCopies()))
-                .collect(Collectors.toList());
+                .findAllByAuthor_FirstNameAndAuthor_LastName(firstName, lastName);
     }
 
     @Override
@@ -118,6 +112,37 @@ public class BookServiceImpl implements BookService {
 //                .stream()
 //                .map(Book::getTitle)
 //                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findAllBooksReleaseBeforeDate(LocalDate date) {
+        return bookRepository.findAllByReleaseDateBefore(date)
+                .stream()
+                .map(b -> String.format("%s %s %.2f", b.getTitle(), b.getEditionType().name(), b.getPrice()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findAllBooksThatContainsString(String input) {
+        return bookRepository.findAllByTitleContaining(input)
+                .stream()
+                .map(Book::getTitle)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findAllBooksByAuthorFirstNameStartWith(String startLastName) {
+        return bookRepository.findAllByAuthor_LastNameStartsWith(startLastName)
+                .stream()
+                .map(b -> String.format("%s (%s %s)",
+                        b.getTitle(), b.getAuthor().getFirstName(), b.getAuthor().getLastName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public int countAllBooksByTitleLongerThen(int length) {
+
+        return bookRepository.countBookByTitleLengthGreaterThan(length);
     }
 
     private Book createBookFromInfo(String[] bookInfo) {

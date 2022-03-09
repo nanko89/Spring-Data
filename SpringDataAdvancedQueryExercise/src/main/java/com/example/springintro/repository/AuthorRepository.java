@@ -12,4 +12,10 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
 
     @Query("SELECT a FROM Author a ORDER BY a.books.size DESC")
     List<Author> findAllByBooksSizeDESC();
+
+    List<Author> findAuthorsByFirstNameEndsWith(String text);
+
+    List<Author> findAuthorsByLastNameStartsWith(String lastName);
+
+
 }
