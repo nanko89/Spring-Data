@@ -33,4 +33,10 @@ public interface BookService {
     int countAllBooksByTitleLongerThen(int length);
 
     String findBookInfoByTitle(String title);
+
+    int increaseAllBooksWithReleaseDateAfter(LocalDate date, int copies);
+
+    int removeBooksWithCopiesLowerThen(int copies);
+
+    int findTotalNumberOfBookByAuthor(String firstName, String lastName);
 }

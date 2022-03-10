@@ -52,12 +52,47 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
             case 10 -> totalBookCopies();
             case 11 -> reduceBook();
             case 12 -> increaseBookCopies();
+            case 13 -> removeBooks();
+            case 14 -> storedProcedure();
             default -> System.out.println("Invalid exercise number!");
         }
     }
 
-    private void increaseBookCopies() {
+    private void storedProcedure() throws IOException {
+        System.out.println("Enter the full name of the author:");
+        String[] fullName = bufferedReader.readLine().split("\\s+");
+        int books = bookService.findTotalNumberOfBookByAuthor(fullName[0], fullName[1]);
 
+        System.out.printf("%s %s has written %d books%n", fullName[0], fullName[1], books);
+
+        //TODO:Make this procedure before start!
+//        CREATE PROCEDURE find_count_of_books (In first_name varchar(40), In last_name varchar(40), OUT books_count INT )
+//        BEGIN
+//        SELECT COUNT(*) into books_count FROM books AS b
+//        JOIN authors a on a.id = b.author_id
+//        WHERE a.first_name = first_name AND a.last_name = last_name;
+//        end;
+    }
+
+    private void removeBooks() throws IOException {
+        System.out.println("Enter number of books copies:");
+        int copies = Integer.parseInt(bufferedReader.readLine());
+
+        System.out.println(bookService.removeBooksWithCopiesLowerThen(copies));
+    }
+
+    private void increaseBookCopies() throws IOException {
+        System.out.println("Enter date in format dd MMM yyyy(01 Jun 1999):");
+        String date = bufferedReader.readLine();
+
+        LocalDate currentDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd MMM yyyy"));
+
+        System.out.println("Enter book copies:");
+        int copies = Integer.parseInt(bufferedReader.readLine());
+
+        int increaseBooks = bookService.increaseAllBooksWithReleaseDateAfter(currentDate, copies);
+
+        System.out.println(increaseBooks * copies);
     }
 
     private void bookTitleByAgeRestriction() throws IOException {
@@ -140,7 +175,6 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         authorService.findAllBooksCopiesByTheirAuthor()
                 .forEach(System.out::println);
     }
-
 
     private void reduceBook() throws IOException {
         System.out.println("Enter title of book:");

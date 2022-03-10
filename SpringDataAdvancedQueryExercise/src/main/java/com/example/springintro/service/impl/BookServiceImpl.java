@@ -6,6 +6,7 @@ import com.example.springintro.service.AuthorService;
 import com.example.springintro.service.BookService;
 import com.example.springintro.service.CategoryService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -108,10 +109,6 @@ public class BookServiceImpl implements BookService {
                 .map(Book::getTitle)
                 .collect(Collectors.toList());
 
-//        return bookRepository.findAllByReleaseDateNotInYear(year)
-//                .stream()
-//                .map(Book::getTitle)
-//                .collect(Collectors.toList());
     }
 
     @Override
@@ -153,6 +150,23 @@ public class BookServiceImpl implements BookService {
                 book.getEditionType().name(),
                 book.getAgeRestriction().name(),
                 book.getPrice());
+    }
+
+    @Transactional
+    @Override
+    public int increaseAllBooksWithReleaseDateAfter(LocalDate date, int copies) {
+        return bookRepository.increaseCopiesOfBooks(date,copies);
+    }
+
+    @Transactional
+    @Override
+    public int removeBooksWithCopiesLowerThen(int copies) {
+        return bookRepository.deleteBookByCopiesLessThan(copies);
+    }
+
+    @Override
+    public int findTotalNumberOfBookByAuthor(String firstName, String lastName) {
+        return bookRepository.findBookByAuthorName(firstName,lastName);
     }
 
 
