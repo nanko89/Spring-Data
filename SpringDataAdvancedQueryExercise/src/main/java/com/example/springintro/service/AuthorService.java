@@ -15,4 +15,6 @@ public interface AuthorService {
     List<String > findAllAuthorsFirstNameFinishWithString(String endWith);
 
     List<Author> findAuthorLastNameStartWithString(String startLastName);
+
+    List<String> findAllBooksCopiesByTheirAuthor();
 }

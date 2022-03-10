@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
@@ -38,6 +39,9 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
    @Query("SELECT COUNT(b) FROM Book b where length(b.title) > :length")
    int countBookByTitleLengthGreaterThan(int length);
+
+   Book findByTitleEquals(String title);
+
 
 
 }
