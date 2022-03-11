@@ -1,13 +1,16 @@
 package com.example.springdataautomappingobjectslab;
 
 import com.example.springdataautomappingobjectslab.projections.entitties.Employee;
+import com.example.springdataautomappingobjectslab.projections.entitties.dto.EmployeeSpringDTO;
 import com.example.springdataautomappingobjectslab.projections.services.EmployeeService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -22,10 +25,23 @@ public class ConsoleRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        persist();
+//        persist();
 
-        Optional<Employee> managerOp = employeeService.findOneById(1L);
-        Employee manager = managerOp.get();
+//        Optional<Employee> managerOp = employeeService.findOneById(1L);
+//        Employee manager = managerOp.get();
+//        ModelMapper modelMapper = new ModelMapper();
+//
+//        EmployeeSpringDTO dto =  modelMapper.map(manager, EmployeeSpringDTO.class);
+//        System.out.println(dto);
+
+        employeeService.findEmployeeBornBefore(1990)
+                .forEach(System.out::println);
+
+//        ModelMapper modelMapper = new ModelMapper();
+//
+//        employees.stream()
+//                .map(e -> modelMapper.map(e, EmployeeSpringDTO.class))
+//                .forEach(System.out::println);
 
     }
 
