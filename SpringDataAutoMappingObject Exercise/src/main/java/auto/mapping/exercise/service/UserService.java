@@ -11,4 +11,6 @@ public interface UserService {
     void logout();
 
     boolean hasLoggedInUser();
+
+    boolean isAdministrator();
 }

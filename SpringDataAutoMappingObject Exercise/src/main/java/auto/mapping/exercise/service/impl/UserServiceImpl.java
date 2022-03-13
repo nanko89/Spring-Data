@@ -45,9 +45,14 @@ public class UserServiceImpl implements UserService {
             return;
         }
 
-        //todo:  map to entity and save in db
-
         User user = modelMapper.map(userRegisterDto, User.class);
+
+        if (userRepository.count() == 0){
+            user.setAdmin(true);
+        }else {
+            user.setAdmin(false);
+        }
+
         userRepository.save(user);
 
     }
@@ -92,5 +97,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean hasLoggedInUser() {
         return loggedInUser != null;
+    }
+
+    @Override
+    public boolean isAdministrator() {
+        return loggedInUser.getAdmin();
     }
 }

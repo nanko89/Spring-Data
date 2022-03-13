@@ -9,4 +9,8 @@ public interface GameService {
     void addGame(GameAddDTO gameAddDTO);
 
     void editGame(Long gameId, BigDecimal price, Double size);
+
+    void deleteGame(long gameId);
+
+    void viewAllGames();
 }

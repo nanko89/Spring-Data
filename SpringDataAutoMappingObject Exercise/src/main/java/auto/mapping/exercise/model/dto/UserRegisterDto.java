@@ -9,6 +9,7 @@ public class UserRegisterDto {
     private String confirmPassword;
     private String fullName;
 
+
     public UserRegisterDto() {
     }
 

@@ -1,6 +1,7 @@
 package auto.mapping.exercise;
 
 import auto.mapping.exercise.model.dto.GameAddDTO;
+import auto.mapping.exercise.model.dto.GameAllDTO;
 import auto.mapping.exercise.model.dto.UserLoginDTO;
 import auto.mapping.exercise.model.dto.UserRegisterDto;
 import auto.mapping.exercise.service.GameService;
@@ -53,8 +54,11 @@ public class CommandRunner implements CommandLineRunner {
                                 LocalDate.parse(commands[7], DateTimeFormatter.ofPattern("dd-MM-yyyy"))));
                 case "EditGame" -> gameService
                         .editGame(Long.parseLong(commands[1])
-                                , new BigDecimal(commands[2]),
-                                Double.parseDouble(commands[3]));
+                                , new BigDecimal(commands[2].split("=")[1]),
+                                Double.parseDouble(commands[3].split("=")[1]));
+                case "DeleteGame" -> gameService
+                        .deleteGame(Long.parseLong(commands[1]));
+                case "AllGames" -> gameService.viewAllGames();
             }
         }
     }

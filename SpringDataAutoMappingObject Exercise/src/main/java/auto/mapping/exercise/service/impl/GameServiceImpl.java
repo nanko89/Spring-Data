@@ -1,6 +1,7 @@
 package auto.mapping.exercise.service.impl;
 
 import auto.mapping.exercise.model.dto.GameAddDTO;
+import auto.mapping.exercise.model.dto.GameAllDTO;
 import auto.mapping.exercise.model.entity.Game;
 import auto.mapping.exercise.repository.GameRepository;
 import auto.mapping.exercise.service.GameService;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -33,11 +36,9 @@ public class GameServiceImpl implements GameService {
     @Override
     public void addGame(GameAddDTO gameAddDTO) {
 
-        if (!userService.hasLoggedInUser()){
-            System.out.println("No logged user! Login first");
+        if (isHaveValidAdminUser()) {
             return;
         }
-
         Set<ConstraintViolation<GameAddDTO>> violations =
                 validationUtil.violation(gameAddDTO);
 
@@ -57,8 +58,26 @@ public class GameServiceImpl implements GameService {
 
     }
 
+    private boolean isHaveValidAdminUser() {
+        if (!userService.hasLoggedInUser()){
+            System.out.println("No logged user! Login first");
+            return true;
+        }
+
+        if (!userService.isAdministrator()){
+            System.out.println("Only administrators can add, edit or delete games");
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void editGame(Long gameId, BigDecimal price, Double size) {
+
+        if (isHaveValidAdminUser()) {
+            return;
+        }
+
         Game game = gameRepository.findById(gameId).orElse(null);
 
         if (game == null){
@@ -70,5 +89,33 @@ public class GameServiceImpl implements GameService {
         game.setSize(size);
 
         gameRepository.save(game);
+    }
+
+    @Override
+    public void deleteGame(long gameId) {
+
+        if (isHaveValidAdminUser()) {
+            return;
+        }
+
+        Game game = gameRepository.findById(gameId).orElse(null);
+
+        if (game == null){
+            System.out.println("Invalid game id");
+            return;
+        }
+
+        gameRepository.delete(game);
+    }
+
+    @Override
+    public void viewAllGames() {
+        List<Game> games = gameRepository.findAll();
+        List<GameAllDTO> allDTO = new ArrayList<>();
+        for (Game game : games) {
+        GameAllDTO gameAllDTO = modelMapper.map(game, GameAllDTO.class);
+        allDTO.add(gameAllDTO);
+        }
+
     }
 }
