@@ -3,8 +3,6 @@ package auto.mapping.exercise.model.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import java.util.List;
 import java.util.Set;
 
 @Entity(name = "users")
@@ -15,6 +13,8 @@ public class User extends BaseEntity {
     private String password;
     @Column(name = "full_name")
     private String fullName;
+    @Column(name = "is_admin")
+    private Boolean isAdmin;
     @ManyToMany
     private Set<Game> games;
 
@@ -45,6 +45,14 @@ public class User extends BaseEntity {
         this.fullName = fullName;
     }
 
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
+    }
+
     public Set<Game> getGames() {
         return games;
     }
@@ -52,4 +60,5 @@ public class User extends BaseEntity {
     public void setGames(Set<Game> games) {
         this.games = games;
     }
+
 }
