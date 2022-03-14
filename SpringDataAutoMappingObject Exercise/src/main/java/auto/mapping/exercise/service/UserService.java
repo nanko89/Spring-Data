@@ -13,4 +13,6 @@ public interface UserService {
     boolean hasLoggedInUser();
 
     boolean isAdministrator();
+
+    void ownedGame();
 }

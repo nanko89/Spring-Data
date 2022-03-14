@@ -1,10 +1,10 @@
 package auto.mapping.exercise;
 
 import auto.mapping.exercise.model.dto.GameAddDTO;
-import auto.mapping.exercise.model.dto.GameAllDTO;
 import auto.mapping.exercise.model.dto.UserLoginDTO;
 import auto.mapping.exercise.model.dto.UserRegisterDto;
 import auto.mapping.exercise.service.GameService;
+import auto.mapping.exercise.service.OrderService;
 import auto.mapping.exercise.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -22,11 +22,13 @@ public class CommandRunner implements CommandLineRunner {
     private final BufferedReader bufferedReader;
     private final UserService userService;
     private final GameService gameService;
+    private final OrderService orderService;
 
 
-    public CommandRunner(UserService userService, GameService gameService) {
+    public CommandRunner(UserService userService, GameService gameService, OrderService orderService) {
         this.userService = userService;
         this.gameService = gameService;
+        this.orderService = orderService;
         this.bufferedReader =  new BufferedReader(new InputStreamReader(System.in));
     }
 
@@ -58,7 +60,15 @@ public class CommandRunner implements CommandLineRunner {
                                 Double.parseDouble(commands[3].split("=")[1]));
                 case "DeleteGame" -> gameService
                         .deleteGame(Long.parseLong(commands[1]));
-                case "AllGames" -> gameService.viewAllGames();
+                case "AllGames" -> gameService
+                        .viewAllGames();
+                case "DetailGame" -> gameService
+                        .detailsGame(commands[1]);
+                case "OwnedGames" -> userService
+                        .ownedGame();
+                case "AddItem" -> orderService
+                        .addItem(commands[1]);
+
             }
         }
     }

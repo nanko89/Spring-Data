@@ -1,10 +1,9 @@
 package auto.mapping.exercise.repository;
 
-import auto.mapping.exercise.model.entity.Game;
+import auto.mapping.exercise.model.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface GameRepository extends JpaRepository<Game, Long> {
-    Game findByTitle(String title);
+public interface OrderRepository extends JpaRepository<Order, Long> {
 }

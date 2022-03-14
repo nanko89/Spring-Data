@@ -2,6 +2,7 @@ package auto.mapping.exercise.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ public class User extends BaseEntity {
     private String fullName;
     @Column(name = "is_admin")
     private Boolean isAdmin;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Game> games;
 
     public User() {

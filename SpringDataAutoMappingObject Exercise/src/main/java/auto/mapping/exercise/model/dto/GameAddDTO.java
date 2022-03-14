@@ -1,14 +1,15 @@
 package auto.mapping.exercise.model.dto;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class GameAddDTO {
 
-    @Pattern(regexp = "[A-Z][\\w]{2,100}", message = "Enter valid title")
+    @Pattern(regexp = "[A-Z][\\w ']{2,100}", message = "Enter valid title")
     private String title;
-
 
     @DecimalMin(value = "0", message = "Enter valid price")
     private BigDecimal price;

@@ -30,4 +30,9 @@ public class GameAllDTO {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s %.2f", title, price);
+    }
 }

@@ -13,4 +13,8 @@ public interface GameService {
     void deleteGame(long gameId);
 
     void viewAllGames();
+
+    void detailsGame(String gameTitle);
+
+
 }

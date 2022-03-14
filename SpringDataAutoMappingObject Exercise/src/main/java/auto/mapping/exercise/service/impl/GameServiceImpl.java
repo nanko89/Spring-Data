@@ -2,6 +2,8 @@ package auto.mapping.exercise.service.impl;
 
 import auto.mapping.exercise.model.dto.GameAddDTO;
 import auto.mapping.exercise.model.dto.GameAllDTO;
+import auto.mapping.exercise.model.dto.GameDetailsDTO;
+import auto.mapping.exercise.model.dto.GameOwnedDTO;
 import auto.mapping.exercise.model.entity.Game;
 import auto.mapping.exercise.repository.GameRepository;
 import auto.mapping.exercise.service.GameService;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -111,11 +112,24 @@ public class GameServiceImpl implements GameService {
     @Override
     public void viewAllGames() {
         List<Game> games = gameRepository.findAll();
-        List<GameAllDTO> allDTO = new ArrayList<>();
         for (Game game : games) {
         GameAllDTO gameAllDTO = modelMapper.map(game, GameAllDTO.class);
-        allDTO.add(gameAllDTO);
+            System.out.println(gameAllDTO);
         }
 
     }
+
+    @Override
+    public void detailsGame(String gameTitle) {
+        Game game = gameRepository.findByTitle(gameTitle);
+
+        if (game == null){
+            System.out.println("Invalid game title");
+        }else {
+            GameDetailsDTO gameDetailsDTO = modelMapper.map(game, GameDetailsDTO.class);
+            System.out.println(gameDetailsDTO);
+        }
+    }
+
+
 }

@@ -1,7 +1,9 @@
 package auto.mapping.exercise.service.impl;
 
+import auto.mapping.exercise.model.dto.GameOwnedDTO;
 import auto.mapping.exercise.model.dto.UserLoginDTO;
 import auto.mapping.exercise.model.dto.UserRegisterDto;
+import auto.mapping.exercise.model.entity.Game;
 import auto.mapping.exercise.model.entity.User;
 import auto.mapping.exercise.repository.UserRepository;
 import auto.mapping.exercise.service.UserService;
@@ -10,7 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,6 +23,7 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final ValidationUtil validationUtil;
     private User loggedInUser;
+
 
 
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, ValidationUtil validationUtil) {
@@ -102,5 +107,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isAdministrator() {
         return loggedInUser.getAdmin();
+    }
+
+    @Override
+    public void ownedGame() {
+
+        Set<Game> games = loggedInUser.getGames();
+
+//        List<Set<Game>> games = userRepository
+//                .findAll()
+//                .stream()
+//                .map(User::getGames)
+//                .collect(Collectors.toList());
+        if (games.isEmpty()){
+            System.out.println("This user have no games");
+        }
+        games.stream().map(g->modelMapper.map(g, GameOwnedDTO.class))
+                .forEach(System.out::println);
     }
 }
