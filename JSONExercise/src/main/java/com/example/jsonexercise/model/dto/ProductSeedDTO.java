@@ -3,14 +3,18 @@ package com.example.jsonexercise.model.dto;
 import com.google.gson.annotations.Expose;
 
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
-public class CategoriesSeedDTO {
+public class ProductSeedDTO {
 
     @Expose
-    @Size(min = 3, max = 15)
+    @Size(min = 3)
     private String name;
 
-    public CategoriesSeedDTO() {
+    @Expose
+    private BigDecimal price;
+
+    public ProductSeedDTO() {
     }
 
     public String getName() {
@@ -19,5 +23,13 @@ public class CategoriesSeedDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }
