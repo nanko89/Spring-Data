@@ -1,6 +1,7 @@
 package com.example.jsonexercise;
 
 import com.example.jsonexercise.model.dto.ProductNameAndPriceDTO;
+import com.example.jsonexercise.model.dto.UserSoldDTO;
 import com.example.jsonexercise.service.CategoryService;
 import com.example.jsonexercise.service.ProductService;
 import com.example.jsonexercise.service.UserService;
@@ -14,7 +15,6 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +23,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
     private final static String OUTPUT_PATH = "src/main/resources/Files/out/";
     private final static String PRODUCT_IN_RANGE = "products-in-range.json";
+    private final static String USERS_SOLD_PRODUCT = "users-sold-products.json";
 
     private final CategoryService categoryService;
     private final UserService userService;
@@ -49,7 +50,17 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
         switch (exNumber) {
             case 1 -> productInRange();
+            case 2 -> successfullySoldProduct();
         }
+    }
+
+    private void successfullySoldProduct() throws IOException {
+        List<UserSoldDTO> userSoldDTOS = userService
+                .findAllUserWithMoreThanOneSoldProduct();
+
+        String contest = gson.toJson(userSoldDTOS);
+
+        writeToFile(OUTPUT_PATH + USERS_SOLD_PRODUCT, contest);
     }
 
     private void productInRange() throws IOException {

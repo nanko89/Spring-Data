@@ -1,6 +1,7 @@
 package com.example.jsonexercise.service.impl;
 
 import com.example.jsonexercise.model.dto.UserSeedDTO;
+import com.example.jsonexercise.model.dto.UserSoldDTO;
 import com.example.jsonexercise.model.entity.User;
 import com.example.jsonexercise.repository.UserRepository;
 import com.example.jsonexercise.service.UserService;
@@ -13,7 +14,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -51,5 +54,14 @@ public class UserServiceImpl implements UserService {
         return userRepository
                 .findById(randomId)
                 .orElse(null);
+    }
+
+    @Override
+    public List<UserSoldDTO> findAllUserWithMoreThanOneSoldProduct() {
+
+        return userRepository.findAllUsersWithMoreThenOneSoldProductOrderByLastNameThenByFirstName()
+                .stream()
+                .map(user -> modelMapper.map(user, UserSoldDTO.class))
+                .collect(Collectors.toList());
     }
 }
