@@ -1,19 +1,22 @@
 package com.example.carDealer.service.impl;
 
+import com.example.carDealer.models.dto.SupplierLocalDTO;
 import com.example.carDealer.models.dto.seed.SupplierSeedDTO;
+import com.example.carDealer.models.entity.Part;
 import com.example.carDealer.models.entity.Supplier;
 import com.example.carDealer.repository.SupplierRepository;
 import com.example.carDealer.service.SupplierService;
 import com.example.carDealer.util.ValidationUtil;
 import com.google.gson.Gson;
-import org.modelmapper.ModelMapper;
+import org.modelmapper.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SupplierServiceImpl implements SupplierService {
@@ -23,6 +26,7 @@ public class SupplierServiceImpl implements SupplierService {
     private final ModelMapper modelMapper;
     private final ValidationUtil validationUtil;
 
+    @Autowired
     public SupplierServiceImpl(SupplierRepository supplierRepository, Gson gson, ModelMapper modelMapper, ValidationUtil validationUtil) {
         this.supplierRepository = supplierRepository;
         this.gson = gson;
@@ -48,9 +52,29 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Supplier findRandomSupplier() {
-         long randomId = ThreadLocalRandom
-                .current()
-                .nextLong(supplierRepository.count()+1);
+        Random random = new Random();
+        long count = supplierRepository.count();
+        long randomId =random
+                .nextLong(1,count+1);
         return supplierRepository.findById(randomId).orElse(null);
+    }
+
+    @Override
+    public List<SupplierLocalDTO> findAllLocalSupplierAndNumberOfParts() {
+
+        Converter<HashSet<Part>, Integer> collectionToSize = c -> c.getSource().size();
+
+        TypeMap<Supplier, SupplierLocalDTO> propertyMapper = modelMapper
+                .createTypeMap(Supplier.class, SupplierLocalDTO.class);
+
+        propertyMapper.addMappings(
+                mapper -> mapper.using(collectionToSize)
+                        .map(Supplier::getParts, SupplierLocalDTO::setPartsCount)
+        );
+
+        return supplierRepository.findAllByImporterIsFalse()
+                .stream()
+                .map(supplier -> modelMapper.map(supplier, SupplierLocalDTO.class))
+                .collect(Collectors.toList());
     }
 }

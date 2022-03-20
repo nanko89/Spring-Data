@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Customer extends BaseEntity{
    @Column
     private String name;
-   @Column(name = "birthDate")
+   @Column(name = "birth_date")
     private String birthDate;
    @Column(name = "is_young_driver")
     private boolean isYoungDriver;
@@ -42,16 +42,4 @@ public class Customer extends BaseEntity{
         isYoungDriver = youngDriver;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return isYoungDriver == customer.isYoungDriver && Objects.equals(name, customer.name) && Objects.equals(birthDate, customer.birthDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, birthDate, isYoungDriver);
-    }
 }

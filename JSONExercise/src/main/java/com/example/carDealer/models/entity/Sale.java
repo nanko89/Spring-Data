@@ -9,10 +9,11 @@ public class Sale extends BaseEntity{
     @Column
     @Enumerated(EnumType.STRING)
     private Discount discount;
-    @Column(name = "car_id")
-    private Long carId;
-    @Column(name = "customer_id")
-    private Long customerId;
+
+    @OneToOne
+    private Car carId;
+    @OneToOne
+    private Customer customerId;
 
     public Sale() {
     }
@@ -25,32 +26,19 @@ public class Sale extends BaseEntity{
         this.discount = discount;
     }
 
-    public Long getCarId() {
+    public Car getCarId() {
         return carId;
     }
 
-    public void setCarId(Long carId) {
+    public void setCarId(Car carId) {
         this.carId = carId;
     }
 
-    public Long getCustomerId() {
+    public Customer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(Customer customerId) {
         this.customerId = customerId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Sale sale = (Sale) o;
-        return discount == sale.discount && Objects.equals(carId, sale.carId) && Objects.equals(customerId, sale.customerId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(discount, carId, customerId);
     }
 }

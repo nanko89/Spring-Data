@@ -12,13 +12,16 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Table;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
+
 
 @Service
 public class PartServiceImpl implements PartService {
@@ -63,17 +66,17 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
+    @Transactional
     public Set<Part> findRandomPart() {
         Set<Part> parts = new HashSet<>();
-        int partCount = ThreadLocalRandom
-                .current()
-                .nextInt(3,6);
+        Random random = new Random();
+        long count = partRepository.count();
+
+        int partCount = random.nextInt(3,6);
 
         for (int i = 0; i < partCount; i++) {
 
-            long randomId = ThreadLocalRandom
-                    .current()
-                    .nextLong(partRepository.count()+1);
+            long randomId = random.nextLong(1,count+1);
 
             parts
                     .add(partRepository.findById(randomId)

@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -35,12 +36,18 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public void fillData() {
+        if (saleRepository.count() > 0){
+            return;
+        }
+        Random random = new Random();
+
         for (int i = 0; i < 30; i++) {
             Sale sale = new Sale();
-            sale.setCustomerId(customerService.findRandomCustomerId());
-            int randomId = ThreadLocalRandom.current().nextInt(1,8);
+
+            sale.setCustomerId(customerService.findRandomCustomer());
+            int randomId = random.nextInt(1,8);
             sale.setDiscount(Discount.values()[randomId]);
-            sale.setCarId(carService.findRandomCarId());
+            sale.setCarId(carService.findRandomCar());
             saleRepository.save(sale);
         }
     }

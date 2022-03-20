@@ -1,5 +1,6 @@
 package com.example.carDealer.service.impl;
 
+import com.example.carDealer.models.dto.CarMakeDTO;
 import com.example.carDealer.models.dto.seed.CarSeedDTO;
 import com.example.carDealer.models.entity.Car;
 import com.example.carDealer.repository.CarRepository;
@@ -15,7 +16,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -52,10 +55,20 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Long findRandomCarId() {
-        return ThreadLocalRandom
-                .current()
-                .nextLong(0,carRepository.count()+1);
+    public Car findRandomCar() {
+        Random random = new Random();
+        long count = carRepository.count();
+        long randomId = random
+                .nextLong(1,  count + 1);
+        return carRepository.findById(randomId).orElse(null);
+    }
+
+    @Override
+    public List<CarMakeDTO> findCarMakeToyotaOrderByModelAscAndTravelDistance() {
+        return carRepository.findAllByMakeOrderByModelTravelledDistanceDes("Toyota")
+                .stream()
+                .map(car -> modelMapper.map(car, CarMakeDTO.class))
+                .collect(Collectors.toList());
     }
 
     private Car getCarDto(CarSeedDTO carSeedDTO) {

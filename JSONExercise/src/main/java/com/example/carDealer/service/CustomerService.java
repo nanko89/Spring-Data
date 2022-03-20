@@ -1,9 +1,15 @@
 package com.example.carDealer.service;
+import com.example.carDealer.models.dto.CustomersOrderedDTO;
+import com.example.carDealer.models.entity.Customer;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface CustomerService {
     void seedCustomerData() throws IOException;
 
-    Long findRandomCustomerId();
+    Customer findRandomCustomer();
+
+    List<CustomersOrderedDTO> findAllCustomersOrderByBirthdateAndIsDriverYounger();
+
 }

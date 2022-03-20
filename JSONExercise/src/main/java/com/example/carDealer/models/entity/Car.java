@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ public class Car extends BaseEntity {
     private Set<Part> parts;
 
     public Car() {
+        this.parts = new HashSet<>();
     }
 
     public String getMake() {
@@ -55,16 +57,4 @@ public class Car extends BaseEntity {
         this.parts = parts;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Car car = (Car) o;
-        return Objects.equals(make, car.make) && Objects.equals(model, car.model) && Objects.equals(travelledDistance, car.travelledDistance) && Objects.equals(parts, car.parts);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(make, model, travelledDistance, parts);
-    }
 }

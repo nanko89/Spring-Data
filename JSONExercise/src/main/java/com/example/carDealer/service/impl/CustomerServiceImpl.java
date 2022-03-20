@@ -1,5 +1,7 @@
 package com.example.carDealer.service.impl;
 
+import com.example.carDealer.models.dto.CarMakeDTO;
+import com.example.carDealer.models.dto.CustomersOrderedDTO;
 import com.example.carDealer.models.dto.seed.CustomerSeedDTO;
 import com.example.carDealer.models.entity.Customer;
 import com.example.carDealer.repository.CustomerRepository;
@@ -14,7 +16,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -49,10 +54,20 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Long findRandomCustomerId() {
-        long randomId = ThreadLocalRandom
-                .current()
-                .nextLong(1,customerRepository.count()+1);
-        return randomId;
+    public Customer findRandomCustomer() {
+        Random random = new Random();
+        long randomId = random.nextLong(1,customerRepository.count()+1);
+
+        return customerRepository.findById(randomId).orElse(null);
+    }
+
+    @Override
+    public List<CustomersOrderedDTO> findAllCustomersOrderByBirthdateAndIsDriverYounger() {
+       return customerRepository
+                .findAllCustomersOrderByBirthdateAndIsYoungerDriver()
+                .stream()
+                .map(customer -> modelMapper.map(customer,CustomersOrderedDTO.class))
+                .collect(Collectors.toList());
+
     }
 }
