@@ -8,13 +8,13 @@ public class SupplierLocalDTO {
     @Expose
     private String name;
     @Expose
-    private int partsCount;
+    private Integer partsCount;
 
 
     public SupplierLocalDTO() {
     }
 
-    public SupplierLocalDTO(Long id, String name, int partsCount) {
+    public SupplierLocalDTO(Long id, String name, Integer partsCount) {
         this.id = id;
         this.name = name;
         this.partsCount = partsCount;
@@ -36,11 +36,11 @@ public class SupplierLocalDTO {
         this.name = name;
     }
 
-    public int getPartsCount() {
+    public Integer getPartsCount() {
         return partsCount;
     }
 
-    public void setPartsCount(int partsCount) {
+    public void setPartsCount(Integer partsCount) {
         this.partsCount = partsCount;
     }
 }

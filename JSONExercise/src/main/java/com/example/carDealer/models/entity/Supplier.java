@@ -44,4 +44,8 @@ public class Supplier extends BaseEntity {
     public void setParts(Set<Part> parts) {
         this.parts = parts;
     }
+
+    public Integer getPartsCount(){
+       return this.parts.size();
+    }
 }

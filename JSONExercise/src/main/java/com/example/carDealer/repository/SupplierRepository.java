@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface SupplierRepository extends JpaRepository<Supplier,Long> {
 
-    @Query("SELECT s.id, s.name, size(s.parts) " +
+    @Query("SELECT new com.example.carDealer.models.dto.SupplierLocalDTO (s.id, s.name, size(s.parts)) " +
             " FROM Supplier s" +
             " WHERE s.isImporter = false ")
-    List<Supplier> findAllByImporterIsFalse();
+    List<SupplierLocalDTO> findAllByImporterIsFalse();
 }

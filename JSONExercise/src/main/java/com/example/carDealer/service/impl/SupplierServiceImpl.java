@@ -61,20 +61,21 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public List<SupplierLocalDTO> findAllLocalSupplierAndNumberOfParts() {
+        ModelMapper mapper = new ModelMapper();
 
-        Converter<HashSet<Part>, Integer> collectionToSize = c -> c.getSource().size();
+        Converter<Collection<Part>, Integer> collectionToSize = c -> c.getSource().size();
 
-        TypeMap<Supplier, SupplierLocalDTO> propertyMapper = modelMapper
+        TypeMap<Supplier, SupplierLocalDTO> propertyMapper = mapper
                 .createTypeMap(Supplier.class, SupplierLocalDTO.class);
 
         propertyMapper.addMappings(
-                mapper -> mapper.using(collectionToSize)
+                mapperM -> mapperM.using(collectionToSize)
                         .map(Supplier::getParts, SupplierLocalDTO::setPartsCount)
         );
 
         return supplierRepository.findAllByImporterIsFalse()
                 .stream()
-                .map(supplier -> modelMapper.map(supplier, SupplierLocalDTO.class))
+                .map(supplier -> mapper.map(supplier, SupplierLocalDTO.class))
                 .collect(Collectors.toList());
     }
 }
