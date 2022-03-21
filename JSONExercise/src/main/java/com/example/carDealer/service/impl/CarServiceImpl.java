@@ -1,5 +1,6 @@
 package com.example.carDealer.service.impl;
 
+import com.example.carDealer.models.dto.CarInfoDTO;
 import com.example.carDealer.models.dto.CarMakeDTO;
 import com.example.carDealer.models.dto.seed.CarSeedDTO;
 import com.example.carDealer.models.entity.Car;
@@ -12,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -68,6 +70,15 @@ public class CarServiceImpl implements CarService {
         return carRepository.findAllByMakeOrderByModelTravelledDistanceDes("Toyota")
                 .stream()
                 .map(car -> modelMapper.map(car, CarMakeDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<CarInfoDTO> findAllCarWithTheirParts() {
+        return carRepository.findAll()
+                .stream()
+                .map(car -> modelMapper.map(car, CarInfoDTO.class))
                 .collect(Collectors.toList());
     }
 

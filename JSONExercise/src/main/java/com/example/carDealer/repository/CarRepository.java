@@ -12,4 +12,6 @@ public interface CarRepository extends JpaRepository<Car,Long> {
 
     @Query("SELECT c FROM Car c WHERE c.make = 'Toyota' ORDER BY c.model, c.travelledDistance DESC ")
     List<Car> findAllByMakeOrderByModelTravelledDistanceDes(String make);
+
+
 }

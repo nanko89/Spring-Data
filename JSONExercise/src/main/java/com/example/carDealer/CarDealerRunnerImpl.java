@@ -1,5 +1,6 @@
 package com.example.carDealer;
 
+import com.example.carDealer.models.dto.CarInfoDTO;
 import com.example.carDealer.models.dto.CarMakeDTO;
 import com.example.carDealer.models.dto.CustomersOrderedDTO;
 import com.example.carDealer.models.dto.SupplierLocalDTO;
@@ -24,6 +25,7 @@ public class CarDealerRunnerImpl implements CommandLineRunner {
     private final static String ORDER_CUSTOMERS_PATH = "ordered-customers.json";
     private final static String TOYOTA_CARS_PATH = "toyota-cars.json";
     private final static String LOCAL_SUPPLIER_PATH = "local-suppliers.json";
+    private final static String CAR_AND_PARTS_PATH = "car-and-parts.json";
 
     private final CarService carService;
     private final CustomerService customerService;
@@ -55,8 +57,18 @@ public class CarDealerRunnerImpl implements CommandLineRunner {
             case 1 -> orderedCustomers();
             case 2 -> carsFromMakeToyota();
             case 3 -> localSuppliers();
+            case 4 -> carsWithListOfParts();
 
         }
+    }
+
+    private void carsWithListOfParts() throws IOException {
+        List<CarInfoDTO> carInfoDTOS = carService
+                .findAllCarWithTheirParts();
+
+        String content = gson.toJson(carInfoDTOS);
+
+        writeToFile(OUTPUT_PATH + CAR_AND_PARTS_PATH, content);
     }
 
     private void localSuppliers() throws IOException {
