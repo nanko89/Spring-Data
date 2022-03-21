@@ -1,9 +1,6 @@
 package com.example.carDealer;
 
-import com.example.carDealer.models.dto.CarInfoDTO;
-import com.example.carDealer.models.dto.CarMakeDTO;
-import com.example.carDealer.models.dto.CustomersOrderedDTO;
-import com.example.carDealer.models.dto.SupplierLocalDTO;
+import com.example.carDealer.models.dto.*;
 import com.example.carDealer.service.*;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +23,7 @@ public class CarDealerRunnerImpl implements CommandLineRunner {
     private final static String TOYOTA_CARS_PATH = "toyota-cars.json";
     private final static String LOCAL_SUPPLIER_PATH = "local-suppliers.json";
     private final static String CAR_AND_PARTS_PATH = "car-and-parts.json";
+    private final static String CUSTOMERS_TOTAL_SALES_PATH = "customers-total-sales.json";
 
     private final CarService carService;
     private final CustomerService customerService;
@@ -49,7 +47,7 @@ public class CarDealerRunnerImpl implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         seedData();
-
+        while (true){
         System.out.println("Enter query number from car dealer exercise:");
         int exNumber = Integer.parseInt(reader.readLine());
 
@@ -58,8 +56,19 @@ public class CarDealerRunnerImpl implements CommandLineRunner {
             case 2 -> carsFromMakeToyota();
             case 3 -> localSuppliers();
             case 4 -> carsWithListOfParts();
-
+            //  case 5 -> totalSalesByCustomer(); -> not worked
+            default -> System.out.println("Not valid query number! Try again!");
         }
+        }
+    }
+
+    private void totalSalesByCustomer() throws IOException {
+//        List<CustomersTotalSaleDTO> customersTotalSaleDTO = customerService
+//                .findAllCustomersOrderByTotalMoneySpend();
+//
+//        String content = gson.toJson(customersTotalSaleDTO);
+//
+//        writeToFile(OUTPUT_PATH + CUSTOMERS_TOTAL_SALES_PATH, content );
     }
 
     private void carsWithListOfParts() throws IOException {

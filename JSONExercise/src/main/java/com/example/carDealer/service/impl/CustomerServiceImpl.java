@@ -2,6 +2,7 @@ package com.example.carDealer.service.impl;
 
 import com.example.carDealer.models.dto.CarMakeDTO;
 import com.example.carDealer.models.dto.CustomersOrderedDTO;
+import com.example.carDealer.models.dto.CustomersTotalSaleDTO;
 import com.example.carDealer.models.dto.seed.CustomerSeedDTO;
 import com.example.carDealer.models.entity.Customer;
 import com.example.carDealer.repository.CustomerRepository;
@@ -70,4 +71,12 @@ public class CustomerServiceImpl implements CustomerService {
                 .collect(Collectors.toList());
 
     }
+
+//    @Override
+//    public List<CustomersTotalSaleDTO> findAllCustomersOrderByTotalMoneySpend() {
+//           return customerRepository.findAllCustomersOrderByTotalSpendMoney()
+//                    .stream()
+//                    .map(customer -> modelMapper.map(customer, CustomersTotalSaleDTO.class))
+//                    .collect(Collectors.toList());
+//    }
 }

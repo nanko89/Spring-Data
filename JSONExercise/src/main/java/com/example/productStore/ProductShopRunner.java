@@ -46,15 +46,17 @@ public class ProductShopRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         seedData();
+        while (true) {
+            System.out.println("Enter query number from product shop:");
+            int exNumber = Integer.parseInt(reader.readLine());
 
-        System.out.println("Enter query number from product shop:");
-        int exNumber = Integer.parseInt(reader.readLine());
-
-        switch (exNumber) {
-            case 1 -> productInRange();
-            case 2 -> successfullySoldProduct();
-            case 3 -> categoryByProduct();
-            case 4 -> usersAndProducts();
+            switch (exNumber) {
+                case 1 -> productInRange();
+                case 2 -> successfullySoldProduct();
+                case 3 -> categoryByProduct();
+                case 4 -> usersAndProducts();
+                default -> System.out.println("Not valid query number! Please try again");
+            }
         }
     }
 

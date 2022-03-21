@@ -12,6 +12,7 @@ public class Sale extends BaseEntity{
 
     @OneToOne
     private Car carId;
+
     @OneToOne
     private Customer customerId;
 
