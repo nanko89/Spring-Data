@@ -4,6 +4,7 @@ import com.example.productShop.model.dto.category.CategoriesViewRootDTO;
 import com.example.productShop.model.dto.category.CategorySeedRootDTO;
 import com.example.productShop.model.dto.product.ProductSeedRootDTO;
 import com.example.productShop.model.dto.product.ProductViewRootDTO;
+import com.example.productShop.model.dto.user.UserCountViewRootDTO;
 import com.example.productShop.model.dto.user.UserSeedRootDTO;
 import com.example.productShop.model.dto.user.UserViewRootDTO;
 import com.example.productShop.service.CategoryService;
@@ -29,6 +30,7 @@ public class ProductShopRunner implements CommandLineRunner {
     public static final String PRODUCT_IN_RANGE = "product-in-range.xml";
     public static final String SOLD_PRODUCT = "users-sold-products.xml";
     public static final String CATEGORIES_BY_PRODUCTS = "categories-by-products.xml";
+    public static final String USER_AND_PRODUCTS = "user-and-products.xml";
 
     private final XmlParse xmlParse;
     private final CategoryService categoryService;
@@ -57,8 +59,16 @@ public class ProductShopRunner implements CommandLineRunner {
             case 1 -> productInRange();
             case 2 -> soldProduct();
             case 3 -> categoryByProductsCount();
+            case 4 -> usersAndProducts();
         }
 
+    }
+
+    private void usersAndProducts() throws JAXBException {
+        UserCountViewRootDTO userCountViewRootDTO = userService
+                .findAllUserWithSoldProductOrderByCountLastAndFirstName();
+
+        xmlParse.writeToFile(OUTPUT_PATH + USER_AND_PRODUCTS, userCountViewRootDTO);
     }
 
     private void categoryByProductsCount() throws JAXBException {

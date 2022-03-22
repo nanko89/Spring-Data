@@ -1,8 +1,6 @@
 package com.example.productShop.service.impl;
 
-import com.example.productShop.model.dto.user.UserSeedDTO;
-import com.example.productShop.model.dto.user.UserViewRootDTO;
-import com.example.productShop.model.dto.user.UserWithProductsDTO;
+import com.example.productShop.model.dto.user.*;
 import com.example.productShop.model.entity.User;
 import com.example.productShop.reposiitory.UserRepository;
 import com.example.productShop.service.UserService;
@@ -57,11 +55,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserViewRootDTO findAllUserWithSoldProductOrderByLastAndFirstName() {
         UserViewRootDTO userViewRootDTO = new UserViewRootDTO();
-        userViewRootDTO.setUser(userRepository.findAllUserWithMoreThanOneSoldProduct()
+        userViewRootDTO.setUser(userRepository
+                .findAllUserWithMoreThanOneSoldProduct()
                 .stream()
                 .map(user -> modelMapper.map(user, UserWithProductsDTO.class))
                 .collect(Collectors.toList()));
         return userViewRootDTO;
+    }
+
+    @Override
+    public UserCountViewRootDTO findAllUserWithSoldProductOrderByCountLastAndFirstName() {
+        UserCountViewRootDTO userCountViewRootDTO = new UserCountViewRootDTO();
+
+        userCountViewRootDTO.setUsers(userRepository
+                .findAllUserWithMoreThanOneSoldProductOrderByCount()
+                .stream()
+                .map(user -> modelMapper.map(user, UserCountWithProductsDTO.class))
+                .collect(Collectors.toList()));
+        userCountViewRootDTO.setCount(userCountViewRootDTO.getUsers().size());
+        return userCountViewRootDTO;
     }
 
 
