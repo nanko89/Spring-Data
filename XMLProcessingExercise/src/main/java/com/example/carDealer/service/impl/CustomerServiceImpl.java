@@ -1,9 +1,6 @@
 package com.example.carDealer.service.impl;
 
-import com.example.carDealer.model.dto.customer.CustomerElementDTO;
-import com.example.carDealer.model.dto.customer.CustomerSeedDTO;
-import com.example.carDealer.model.dto.customer.CustomerSeedRootDTO;
-import com.example.carDealer.model.dto.customer.CustomerViewRootDTO;
+import com.example.carDealer.model.dto.customer.*;
 import com.example.carDealer.model.entity.Customer;
 import com.example.carDealer.reposiitory.CustomerRepository;
 import com.example.carDealer.service.CustomerService;
@@ -12,6 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Tuple;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -42,7 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
         long count = customerRepository.count();
 
         long randomId = random
-                .nextLong(1,  count + 1);
+                .nextLong(1, count + 1);
 
         return customerRepository
                 .findById(randomId).orElse(null);
@@ -57,9 +57,32 @@ public class CustomerServiceImpl implements CustomerService {
                         .stream()
                         .map(customer -> modelMapper.map(customer, CustomerElementDTO.class))
                         .collect(Collectors.toList())
-        );
+                );
 
         return customerSeedRootDTO;
+    }
+
+    @Override
+    public CustomerViewRootTotalSaleDTO findAllCustomersWithBoughtMoreThenOneCar() {
+
+        CustomerViewRootTotalSaleDTO customerViewRootTotalSaleDTO =
+                new CustomerViewRootTotalSaleDTO();
+
+        List<Tuple> customerTotalTuple = customerRepository
+                .findAllCustomersWithBoughtMoreThenOneCar();
+
+        List<CustomerTotalSaleDTO> customerTotalSaleDTOS = customerTotalTuple
+                .stream()
+                .map(c -> new CustomerTotalSaleDTO(
+                                c.get(0, String.class),
+                                c.get(1, BigInteger.class),
+                                c.get(2, BigDecimal.class)))
+                .collect(Collectors.toList());
+
+        customerViewRootTotalSaleDTO
+                .setCustomers(customerTotalSaleDTOS);
+
+        return customerViewRootTotalSaleDTO;
     }
 
     @Override

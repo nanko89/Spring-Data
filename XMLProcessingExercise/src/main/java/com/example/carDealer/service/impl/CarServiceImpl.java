@@ -1,8 +1,6 @@
 package com.example.carDealer.service.impl;
 
-import com.example.carDealer.model.dto.car.CarSeedDTO;
-import com.example.carDealer.model.dto.car.CarToyotaDTO;
-import com.example.carDealer.model.dto.car.CarViewRootToyotaDTO;
+import com.example.carDealer.model.dto.car.*;
 import com.example.carDealer.model.entity.Car;
 import com.example.carDealer.reposiitory.CarRepository;
 import com.example.carDealer.service.CarService;
@@ -12,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -65,6 +64,21 @@ public class CarServiceImpl implements CarService {
                          .collect(Collectors.toList()));
 
       return carViewRootToyotaDTO;
+    }
+
+    @Override
+    @Transactional
+    public CarViewRootWithPartsDTO findAllCarsWithTheirParts() {
+
+        CarViewRootWithPartsDTO carViewRootWithPartsDTO = new CarViewRootWithPartsDTO();
+
+        carViewRootWithPartsDTO.setCars(carRepository
+                .findAll()
+                .stream()
+                .map(car -> modelMapper.map(car, CarWithPartDTO.class))
+                .collect(Collectors.toList()));
+
+        return carViewRootWithPartsDTO;
     }
 
     @Override

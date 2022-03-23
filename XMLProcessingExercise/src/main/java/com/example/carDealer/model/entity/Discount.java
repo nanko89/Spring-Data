@@ -1,15 +1,19 @@
 package com.example.carDealer.model.entity;
 
-public enum Discount {
-    PERCENT_0(0f), PERCENT_5(0.05f), PERCENT_10(0.10f),PERCENT_15(0.15f),
-    PERCENT_20(0.20f),PERCENT_30(0.30f), PERCENT_40(0.40f), PERCENT_50(0.5f);
-    private final float value;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 
-    Discount(float value) {
+
+public enum Discount {
+    PERCENT_0(0.0), PERCENT_5(0.05), PERCENT_10(0.10),PERCENT_15(0.15),
+    PERCENT_20(0.20),PERCENT_30(0.30), PERCENT_40(0.40), PERCENT_50(0.5);
+    private final Double value;
+
+    Discount(Double value) {
         this.value = value;
     }
 
-    public float getValue() {
+    public Double getValue() {
         return value;
     }
 

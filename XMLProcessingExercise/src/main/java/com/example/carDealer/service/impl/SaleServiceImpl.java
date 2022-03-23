@@ -1,5 +1,7 @@
 package com.example.carDealer.service.impl;
 
+import com.example.carDealer.model.dto.sale.SaleViewRootDTO;
+import com.example.carDealer.model.dto.sale.SaleWithDiscountDTO;
 import com.example.carDealer.model.entity.Discount;
 import com.example.carDealer.model.entity.Sale;
 import com.example.carDealer.reposiitory.SaleRepository;
@@ -11,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class SaleServiceImpl implements SaleService {
@@ -37,15 +40,29 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public void seedSale() {
-            Random random = new Random();
+        Random random = new Random();
 
         for (int i = 0; i < 40; i++) {
             Sale sale = new Sale();
             sale.setCarId(carService.findRandomCar());
             sale.setCustomer(customerService.findRandomCustomer());
-            int randomPercent = random.nextInt(0,7);
+            int randomPercent = random.nextInt(0, 7);
             sale.setDiscount(Discount.values()[randomPercent]);
             saleRepository.save(sale);
         }
+    }
+
+    @Override
+    public SaleViewRootDTO findAllSaleAndDiscount() {
+        SaleViewRootDTO saleViewRootDTO = new SaleViewRootDTO();
+
+        saleViewRootDTO.setSales(saleRepository
+                .findAllSaleAndDistinct()
+                .stream()
+                .map(sale -> modelMapper.map(sale,
+                        SaleWithDiscountDTO.class))
+                .collect(Collectors.toList()));
+        return saleViewRootDTO;
+
     }
 }
