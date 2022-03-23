@@ -39,7 +39,7 @@ public class Sale extends BaseEntity{
         return customerId;
     }
 
-    public void setCustomerId(Customer customerId) {
+    public void setCustomer(Customer customerId) {
         this.customerId = customerId;
     }
 }

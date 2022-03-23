@@ -11,6 +11,7 @@ import com.example.productShop.service.CategoryService;
 import com.example.productShop.service.ProductService;
 import com.example.productShop.service.UserService;
 import com.example.productShop.util.XmlParse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +39,7 @@ public class ProductShopRunner implements CommandLineRunner {
     private final ProductService productService;
     private final BufferedReader bufferedReader;
 
+    @Autowired
     public ProductShopRunner(XmlParse xmlParse, CategoryService categoryService, UserService userService, ProductService productService) {
         this.xmlParse = xmlParse;
         this.categoryService = categoryService;

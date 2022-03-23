@@ -1,6 +1,8 @@
 package com.example.carDealer.service.impl;
 
 import com.example.carDealer.model.dto.car.CarSeedDTO;
+import com.example.carDealer.model.dto.car.CarToyotaDTO;
+import com.example.carDealer.model.dto.car.CarViewRootToyotaDTO;
 import com.example.carDealer.model.entity.Car;
 import com.example.carDealer.reposiitory.CarRepository;
 import com.example.carDealer.service.CarService;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -48,6 +51,20 @@ public class CarServiceImpl implements CarService {
         long randomId = random
                 .nextLong(1,  count + 1);
         return carRepository.findById(randomId).orElse(null);
+    }
+
+    @Override
+    public CarViewRootToyotaDTO findAllCarToyotaOrderByModelAndTravelDistanceDesc() {
+        CarViewRootToyotaDTO carViewRootToyotaDTO = new CarViewRootToyotaDTO();
+
+        carViewRootToyotaDTO
+                .setCars( carRepository
+                        .findAllByMakeOrderByModelAscTravelledDistanceDesc("Toyota")
+                         .stream()
+                         .map(car -> modelMapper.map(car, CarToyotaDTO.class))
+                         .collect(Collectors.toList()));
+
+      return carViewRootToyotaDTO;
     }
 
     @Override

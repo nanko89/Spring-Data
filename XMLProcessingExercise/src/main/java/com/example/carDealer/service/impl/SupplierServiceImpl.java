@@ -1,6 +1,8 @@
 package com.example.carDealer.service.impl;
 
+import com.example.carDealer.model.dto.supplier.SupplierLocalDTO;
 import com.example.carDealer.model.dto.supplier.SupplierSeedDTO;
+import com.example.carDealer.model.dto.supplier.SupplierViewRootDTO;
 import com.example.carDealer.model.entity.Supplier;
 import com.example.carDealer.reposiitory.SupplierRepository;
 import com.example.carDealer.service.SupplierService;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class SupplierServiceImpl implements SupplierService {
@@ -48,5 +51,15 @@ public class SupplierServiceImpl implements SupplierService {
         long randomId = random.nextLong(1, size + 1);
 
         return supplierRepository.findById(randomId).orElse(null);
+    }
+
+    @Override
+    public SupplierViewRootDTO findAllLocalSuppliers() {
+        SupplierViewRootDTO supplierViewRootDTO = new SupplierViewRootDTO();
+
+        supplierViewRootDTO.setSuppliers(supplierRepository
+                .findAllByImporterIsFalse());
+
+        return supplierViewRootDTO;
     }
 }

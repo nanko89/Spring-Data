@@ -1,6 +1,9 @@
 package com.example.carDealer.service.impl;
 
+import com.example.carDealer.model.dto.customer.CustomerElementDTO;
 import com.example.carDealer.model.dto.customer.CustomerSeedDTO;
+import com.example.carDealer.model.dto.customer.CustomerSeedRootDTO;
+import com.example.carDealer.model.dto.customer.CustomerViewRootDTO;
 import com.example.carDealer.model.entity.Customer;
 import com.example.carDealer.reposiitory.CustomerRepository;
 import com.example.carDealer.service.CustomerService;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -32,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer findRandomCar() {
+    public Customer findRandomCustomer() {
         Random random = new Random();
 
         long count = customerRepository.count();
@@ -43,6 +47,21 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository
                 .findById(randomId).orElse(null);
     }
+
+    @Override
+    public CustomerViewRootDTO showAllCustomersOrderByBirthDateAndIsYoungDriver() {
+        CustomerViewRootDTO customerSeedRootDTO = new CustomerViewRootDTO();
+        customerSeedRootDTO
+                .setCustomers(customerRepository
+                        .findAllCustomersOrderByBirthdateAndIsDriverYounger()
+                        .stream()
+                        .map(customer -> modelMapper.map(customer, CustomerElementDTO.class))
+                        .collect(Collectors.toList())
+        );
+
+        return customerSeedRootDTO;
+    }
+
     @Override
     public void seedCustomer(List<CustomerSeedDTO> customers) {
         customers

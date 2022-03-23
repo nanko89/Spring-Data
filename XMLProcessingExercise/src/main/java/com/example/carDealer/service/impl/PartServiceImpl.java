@@ -30,7 +30,7 @@ public class PartServiceImpl implements PartService {
 
     @Override
     public long getEntityCount() {
-        return 0;
+        return partRepository.count();
     }
 
     @Override
