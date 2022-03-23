@@ -1,23 +1,22 @@
-package com.example.carDealer.model.entity;
+package com.example.carDealer.model.dto.customer;
+import com.example.carDealer.util.impl.LocalDateTimeAdapter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
-@Entity
-@Table(name = "customers")
-public class Customer extends BaseEntity{
-   @Column(name = "name")
+@XmlRootElement(name = "customer")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class CustomerSeedDTO {
+
+    @XmlAttribute(name = "name")
     private String name;
-   @Column(name = "birth_date")
-    private LocalDateTime birthDate;
-   @Column(name = "is_young_driver")
-    private boolean isYoungDriver;
 
-    public Customer() {
-    }
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
+    @XmlElement(name = "birth-date")
+    private LocalDateTime birthDate;
+    @XmlElement(name = "is-young-driver")
+    private boolean isYoungDriver;
 
     public String getName() {
         return name;
@@ -42,5 +41,4 @@ public class Customer extends BaseEntity{
     public void setYoungDriver(boolean youngDriver) {
         isYoungDriver = youngDriver;
     }
-
 }

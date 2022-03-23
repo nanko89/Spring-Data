@@ -13,7 +13,7 @@ public class CarSeedDTO {
     private String make;
     @XmlElement(name = "model")
     private String model;
-    @XmlElement(name = "traveled-distance")
+    @XmlElement(name = "travelled-distance")
     private Long travelledDistance;
 
     public String getMake() {
