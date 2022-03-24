@@ -52,17 +52,17 @@ public class SaleServiceImpl implements SaleService {
         }
     }
 
-    @Override
-    public SaleViewRootDTO findAllSaleAndDiscount() {
-        SaleViewRootDTO saleViewRootDTO = new SaleViewRootDTO();
-
-        saleViewRootDTO.setSales(saleRepository
-                .findAllSaleAndDistinct()
-                .stream()
-                .map(sale -> modelMapper.map(sale,
-                        SaleWithDiscountDTO.class))
-                .collect(Collectors.toList()));
-        return saleViewRootDTO;
-
-    }
+//    @Override
+//    public SaleViewRootDTO findAllSaleAndDiscount() {
+//        SaleViewRootDTO saleViewRootDTO = new SaleViewRootDTO();
+//
+//        saleViewRootDTO.setSales(saleRepository
+//                .findAllSaleAndDistinct()
+//                .stream()
+//                .map(sale -> modelMapper.map(sale,
+//                        SaleWithDiscountDTO.class))
+//                .collect(Collectors.toList()));
+//        return saleViewRootDTO;
+//
+//    }
 }

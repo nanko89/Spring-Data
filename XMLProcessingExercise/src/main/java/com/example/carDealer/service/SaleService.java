@@ -7,5 +7,5 @@ public interface SaleService {
 
     void seedSale();
 
-    SaleViewRootDTO findAllSaleAndDiscount();
+//    SaleViewRootDTO findAllSaleAndDiscount();
 }

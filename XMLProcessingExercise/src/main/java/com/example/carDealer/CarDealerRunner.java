@@ -7,7 +7,6 @@ import com.example.carDealer.model.dto.customer.CustomerSeedRootDTO;
 import com.example.carDealer.model.dto.customer.CustomerViewRootDTO;
 import com.example.carDealer.model.dto.customer.CustomerViewRootTotalSaleDTO;
 import com.example.carDealer.model.dto.part.PartSeedRootDTO;
-import com.example.carDealer.model.dto.sale.SaleViewRootDTO;
 import com.example.carDealer.model.dto.supplier.SupplierSeedRootDTO;
 import com.example.carDealer.model.dto.supplier.SupplierViewRootDTO;
 import com.example.carDealer.service.*;
@@ -35,7 +34,6 @@ public class CarDealerRunner implements CommandLineRunner {
     private final static String LOCAL_SUPPLIER_PATH = "local-suppliers.xml";
     private final static String CAR_AND_PARTS_PATH = "car-and-parts.xml";
     private final static String CUSTOMERS_TOTAL_SALES_PATH = "customers-total-sales.xml";
-    private final static String SALE_DISCOUNT_PATH = "sales-discounts.xml";
 
     private final CarService carService;
     private final CustomerService customerService;
@@ -70,7 +68,6 @@ public class CarDealerRunner implements CommandLineRunner {
                 case 3 -> localSuppliers();
                 case 4 -> carsWithListOfParts();
                 case 5 -> totalSalesByCustomer();
-                case 6 -> salesWithDiscount();
                 default -> System.out.println("Not valid query number! Try again!");
             }
         }
@@ -160,15 +157,5 @@ public class CarDealerRunner implements CommandLineRunner {
         xmlParse
                 .writeToFile(OUT_PATH + CUSTOMERS_TOTAL_SALES_PATH, customerViewRootTotalSaleDTO);
     }
-
-    private void salesWithDiscount() throws JAXBException {
-        SaleViewRootDTO saleViewRootDTO = saleService
-                .findAllSaleAndDiscount();
-
-        xmlParse
-                .writeToFile(OUT_PATH + SALE_DISCOUNT_PATH, saleViewRootDTO);
-    }
-
-
 }
 

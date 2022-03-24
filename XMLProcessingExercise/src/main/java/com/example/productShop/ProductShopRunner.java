@@ -52,18 +52,20 @@ public class ProductShopRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         seedData();
-        System.out.println("Enter number of query for product shop:");
 
-        int queryNumber = Integer.parseInt(bufferedReader.readLine());
+        while (true) {
+            System.out.println("Enter number of query for product shop:");
 
-        switch (queryNumber) {
+            int queryNumber = Integer.parseInt(bufferedReader.readLine());
 
-            case 1 -> productInRange();
-            case 2 -> soldProduct();
-            case 3 -> categoryByProductsCount();
-            case 4 -> usersAndProducts();
+            switch (queryNumber) {
+
+                case 1 -> productInRange();
+                case 2 -> soldProduct();
+                case 3 -> categoryByProductsCount();
+                case 4 -> usersAndProducts();
+            }
         }
-
     }
 
     private void usersAndProducts() throws JAXBException {
