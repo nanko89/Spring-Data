@@ -3,6 +3,7 @@ package exam.model.entity;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+
 @Entity
 @Table(name = "shops")
 public class Shop {
@@ -16,9 +17,9 @@ public class Shop {
     private BigDecimal income;
     @Column
     private String address;
-    @Column
+    @Column(name = "employee_count")
     private Integer employeeCount;
-    @Column
+    @Column(name = "shop_area")
     private Integer shopArea;
     @ManyToOne
     private Town town;
@@ -81,4 +82,5 @@ public class Shop {
     public void setTown(Town town) {
         this.town = town;
     }
+
 }
