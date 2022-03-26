@@ -2,6 +2,7 @@ package exam.model.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.Set;
 
 @Entity
 @Table(name = "towns")
@@ -16,6 +17,8 @@ public class Town {
     private Integer population;
     @Column(columnDefinition = "TEXT")
     private String travelGuide;
+    @OneToMany(mappedBy = "town")
+    private Set<Shop> shops;
 
     public Town() {
     }
@@ -50,5 +53,13 @@ public class Town {
 
     public void setTravelGuide(String travelGuide) {
         this.travelGuide = travelGuide;
+    }
+
+    public Set<Shop> getShops() {
+        return shops;
+    }
+
+    public void setShops(Set<Shop> shops) {
+        this.shops = shops;
     }
 }

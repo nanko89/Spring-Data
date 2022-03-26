@@ -2,6 +2,7 @@ package exam.model.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Set;
 
 
 @Entity
@@ -23,6 +24,8 @@ public class Shop {
     private Integer shopArea;
     @ManyToOne
     private Town town;
+    @OneToMany(mappedBy = "shop")
+    private Set<Laptop> laptops;
 
     public Shop() {
     }
@@ -83,4 +86,11 @@ public class Shop {
         this.town = town;
     }
 
+    public Set<Laptop> getLaptops() {
+        return laptops;
+    }
+
+    public void setLaptops(Set<Laptop> laptops) {
+        this.laptops = laptops;
+    }
 }

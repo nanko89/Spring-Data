@@ -1,4 +1,4 @@
-package exam.model.entity.dto;
+package exam.model.dto.xml;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;

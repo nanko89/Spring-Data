@@ -1,8 +1,7 @@
 package exam.service.impl;
 
 import exam.model.entity.Town;
-import exam.model.entity.dto.TownNameDto;
-import exam.model.entity.dto.TownSeedRootDto;
+import exam.model.dto.xml.TownSeedRootDto;
 import exam.repository.TownRepository;
 import exam.service.TownService;
 import exam.util.ValidationUtil;

@@ -1,4 +1,4 @@
-package exam.model.entity.dto;
+package exam.model.dto.xml;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
