@@ -1,7 +1,6 @@
 package exam.model.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.util.Set;
 
 @Entity
