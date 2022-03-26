@@ -13,10 +13,10 @@ public class Post {
     @Column(nullable = false)
     private String caption;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Picture picture;
 
 

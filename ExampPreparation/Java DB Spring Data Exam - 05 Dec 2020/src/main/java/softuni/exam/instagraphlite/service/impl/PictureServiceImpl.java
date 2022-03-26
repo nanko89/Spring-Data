@@ -76,7 +76,13 @@ public class PictureServiceImpl implements PictureService {
 
     @Override
     public String exportPictures() {
-        return null;
+
+        StringBuilder sb = new StringBuilder();
+
+        pictureRepository.findAllBySizeIsGreaterThanOrderBySize(30000.0)
+                .forEach(p -> sb.append(String.format("%.2f – %s%n",p.getSize(), p.getPath())));
+
+        return sb.toString();
     }
 
     @Override

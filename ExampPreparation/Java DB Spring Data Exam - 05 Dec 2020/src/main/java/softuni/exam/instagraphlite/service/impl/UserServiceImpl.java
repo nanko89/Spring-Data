@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Comparator;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -73,12 +74,37 @@ public class UserServiceImpl implements UserService {
         return sb.toString();
     }
 
-    private boolean isExistEntity(String username) {
+    @Override
+    public boolean isExistEntity(String username) {
         return userRepository.existsByUsername(username);
     }
 
     @Override
     public String exportUsersWithTheirPosts() {
-        return null;
+
+        StringBuilder sb = new StringBuilder();
+
+        userRepository.findAllWithCountOfPostsDescAndUserId()
+                .forEach(user -> {
+                    sb.append(String.format("User: %s%n" +
+                            "Post count: %d%n", user.getUsername(), user.getPosts().size()));
+
+                    user.getPosts()
+                            .stream()
+                            .sorted(Comparator.comparingDouble(a -> a.getPicture().getSize()))
+                            .forEach(post -> {
+                                sb.append(String.format("==Post Details:%n" +
+                                                "----Caption: %s%n" +
+                                                "----Picture Size: %.2f%n", post.getCaption()
+                                        , post.getPicture().getSize()));
+                            });
+                });
+
+        return sb.toString();
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

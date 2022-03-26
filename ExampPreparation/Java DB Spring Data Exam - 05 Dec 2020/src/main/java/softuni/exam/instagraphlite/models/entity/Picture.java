@@ -1,6 +1,7 @@
 package softuni.exam.instagraphlite.models.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "pictures")
@@ -15,6 +16,12 @@ public class Picture {
 
     @Column(nullable = false)
     private Double size;
+
+    @OneToMany(mappedBy = "picture", fetch = FetchType.EAGER)
+    private Set<Post> posts;
+
+    @OneToMany(mappedBy = "profilePicture", fetch = FetchType.EAGER)
+    private Set<User> users;
 
     public Picture() {
     }

@@ -1,6 +1,7 @@
 package softuni.exam.instagraphlite.models.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -16,8 +17,11 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Picture profilePicture;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<Post> posts;
 
     public User() {
     }
@@ -52,5 +56,13 @@ public class User {
 
     public void setProfilePicture(Picture profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
     }
 }
