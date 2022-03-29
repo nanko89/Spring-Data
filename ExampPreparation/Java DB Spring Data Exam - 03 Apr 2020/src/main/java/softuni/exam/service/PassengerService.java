@@ -1,12 +1,9 @@
 package softuni.exam.service;
 
-
-
-import softuni.exam.models.entities.Passenger;
+import softuni.exam.models.entity.Passenger;
 
 import java.io.IOException;
 
-//ToDo - Before start App implement this Service and set areImported to return false
 public interface PassengerService {
 
     boolean areImported();
@@ -16,4 +13,8 @@ public interface PassengerService {
 	String importPassengers() throws IOException;
 
 	String getPassengersOrderByTicketsCountDescendingThenByEmail();
+
+    boolean isExistEntity(String registerNumber);
+
+    Passenger findByEmail(String email);
 }
