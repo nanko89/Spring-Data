@@ -5,30 +5,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import softuni.exam.service.PlayerService;
+import softuni.exam.service.CarService;
+import softuni.exam.service.OfferService;
 
 @Controller
 @RequestMapping("/export")
 public class ExportController extends BaseController {
 
-    private final PlayerService playerService;
+
+    private final CarService carService;
+
 
     @Autowired
-    public ExportController(PlayerService playerService) {
-        this.playerService = playerService;
+    public ExportController(CarService carService) {
+        this.carService = carService;
+   
     }
 
-    @GetMapping("/players-with-salary-bigger")
-    public ModelAndView exportPlayerWithSalaryBiggerThan(){
-        String playersWithSalary = this.playerService.exportPlayersWhereSalaryBiggerThan();
 
-        return super.view("export/export-players-with-salary-bigger.html","playersWithSalaryBiggerThan", playersWithSalary);
-    }
+    @GetMapping("/cars-by-pictures")
+    public ModelAndView exportCarsByPictures(){
+        String carsByPictures = this.carService
+                .getCarsOrderByPicturesCountThenByMake();
 
-    @GetMapping("/team-players")
-    public ModelAndView exportPlayerInATeam(){
-        String playersInATeam = this.playerService.exportPlayersInATeam();
-
-        return super.view("export/export-team-players.html","playersInATeam", playersInATeam);
+        return super.view("export/export-cars-by-pictures.html","carsByPictures", carsByPictures);
     }
 }

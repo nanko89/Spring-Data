@@ -1,9 +1,14 @@
 package softuni.exam.service;
 
+
+import java.io.IOException;
+
 public interface PictureService {
-    String importPictures();
 
     boolean areImported();
 
-    String readPicturesXmlFile();
+    String readPicturesFromFile() throws IOException;
+	
+	String importPictures() throws IOException;
+
 }

@@ -4,30 +4,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+import softuni.exam.service.CarService;
+import softuni.exam.service.OfferService;
 import softuni.exam.service.PictureService;
-import softuni.exam.service.PlayerService;
-import softuni.exam.service.TeamService;
+import softuni.exam.service.SellerService;
 
 @Controller
-public class HomeController  extends BaseController{
+public class HomeController extends BaseController {
 
+    private final CarService carService;
+    private final OfferService offerService;
     private final PictureService pictureService;
-    private final TeamService teamService;
-    private final PlayerService playerService;
+    private final SellerService sellerService;
 
     @Autowired
-    public HomeController(PictureService pictureService, TeamService teamService, PlayerService playerService) {
+    public HomeController(CarService carService, OfferService offerService, PictureService pictureService, SellerService sellerService) {
+        this.carService = carService;
+        this.offerService = offerService;
         this.pictureService = pictureService;
-        this.teamService = teamService;
-        this.playerService = playerService;
+        this.sellerService = sellerService;
     }
+
 
     @GetMapping("/")
     public ModelAndView index() {
-        boolean areImported = this.playerService.areImported() &&
+        boolean areImported = this.carService.areImported() &&
+                this.offerService.areImported() &&
                 this.pictureService.areImported() &&
-                this.teamService.areImported();
+                this.sellerService.areImported();
 
-        return super.view("index","areImported", areImported);
+        return super.view("index", "areImported", areImported);
     }
 }
