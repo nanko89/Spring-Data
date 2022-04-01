@@ -18,6 +18,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class TicketServiceImpl implements TicketService {
@@ -71,9 +73,9 @@ public class TicketServiceImpl implements TicketService {
                             && planeService.isExistEntity(ticketSeedDto.getPlane().getRegisterNumber());
 
                     sb.append(isValid
-                    ? String.format("Successfully imported Ticket %s - %s",
-                            ticketSeedDto.getFromTown().getName(), ticketSeedDto.getToTown().getName())
-                            : "Invalid Ticket")
+                                    ? String.format("Successfully imported Ticket %s - %s",
+                                    ticketSeedDto.getFromTown().getName(), ticketSeedDto.getToTown().getName())
+                                    : "Invalid Ticket")
                             .append(System.lineSeparator());
 
                     return isValid;
@@ -84,7 +86,10 @@ public class TicketServiceImpl implements TicketService {
                     ticket.setToTown(townService.findByName(ticketSeedDto.getToTown().getName()));
                     ticket.setPassenger(passengerService.findByEmail(ticketSeedDto.getPassenger().getEmail()));
                     ticket.setPlane(planeService.findByRegisterNumber(ticketSeedDto.getPlane().getRegisterNumber()));
-                return ticket;
+                    ticket.setTakeOff(LocalDateTime.parse(
+                            ticketSeedDto.getTakeOff(),
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                    return ticket;
                 })
                 .forEach(ticketRepository::save);
 

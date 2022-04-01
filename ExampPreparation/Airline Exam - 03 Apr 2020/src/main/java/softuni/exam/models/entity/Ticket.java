@@ -19,7 +19,7 @@ public class Ticket {
     private BigDecimal price;
 
     @Column(name = "take_off")
-    private LocalDateTime takeoff;
+    private LocalDateTime takeOff;
     @ManyToOne
     private Town toTown;
     @ManyToOne
@@ -56,12 +56,12 @@ public class Ticket {
         this.price = price;
     }
 
-    public LocalDateTime getTakeoff() {
-        return takeoff;
+    public LocalDateTime getTakeOff() {
+        return takeOff;
     }
 
-    public void setTakeoff(LocalDateTime takeoff) {
-        this.takeoff = takeoff;
+    public void setTakeOff(LocalDateTime takeoff) {
+        this.takeOff = takeoff;
     }
 
     public Town getToTown() {

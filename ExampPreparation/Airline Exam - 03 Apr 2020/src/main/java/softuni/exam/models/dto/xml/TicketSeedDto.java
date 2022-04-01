@@ -1,5 +1,7 @@
 package softuni.exam.models.dto.xml;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -9,8 +11,10 @@ import java.math.BigDecimal;
 public class TicketSeedDto {
 
     @XmlElement(name = "serial-number")
+    @Size(min = 3)
     private String serialNumber;
     @XmlElement()
+    @Positive
     private BigDecimal price;
     @XmlElement(name = "take-off")
     private String takeOff;
