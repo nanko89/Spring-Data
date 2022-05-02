@@ -27,7 +27,7 @@
             <button type="submit" class="btn bg-black glow-button">Login</button>
         </div>
     </form>
-    <span style="visibility: hidden">....</span>
+    <span th:if="${error}" style="color: red" th:text = "${error}">....</span>
 </main>
 <footer>
     <th:block th:include="~{fragments/footer}"></th:block>
