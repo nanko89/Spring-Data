@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+    boolean existsAllBy();
+
+    Employee findFirstByFirstNameAndLastNameAndAge(String firstName, String lastName, Integer age);
+
 }

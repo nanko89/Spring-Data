@@ -27,19 +27,20 @@ public class UserController {
     @PostMapping("/users/register")
     public String register(UserRegisterDto user, Model model) {
         if (this.userService.register(user)){
-            return "redirect:/user/login";
+            return "redirect:/users/login";
         }
 
         model.addAttribute("error","Invalid data");
         return "user/register";
     }
 
-    @GetMapping("user/login")
-    public String login(){
+    @GetMapping("/users/login")
+    public String login(UserLoginDto user, Model model) {
+        model.addAttribute("userLoginForm", user);
         return "user/login";
     }
 
-    @PostMapping("user/login")
+    @PostMapping("/users/login")
     public String login(UserLoginDto userRequest, Model model, HttpServletRequest request){
         Long userId = this.userService.validateUserLoginDetails(userRequest);
 

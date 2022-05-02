@@ -1,9 +1,10 @@
-package com.example.springdata.service;
+package com.example.springdata.service.impl;
 
 import com.example.springdata.dto.UserLoginDto;
 import com.example.springdata.dto.UserRegisterDto;
 import com.example.springdata.entity.User;
 import com.example.springdata.repository.UserRepository;
+import com.example.springdata.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
