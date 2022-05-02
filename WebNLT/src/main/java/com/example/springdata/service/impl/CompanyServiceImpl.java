@@ -41,7 +41,7 @@ public class CompanyServiceImpl implements CompanyService {
 
         Company existing = this.companyRepository.findFirstByName(request.getName());
 
-        if (existing != null){
+        if (existing != null) {
             return existing.getId();
         }
 

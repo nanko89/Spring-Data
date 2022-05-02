@@ -45,11 +45,11 @@ public class UserServiceImpl implements UserService {
     public Long validateUserLoginDetails(UserLoginDto userRequest) {
         User user = this.userRepository.findFirstByUsername(userRequest.getUsername());
 
-        if (user == null){
-            return  null;
+        if (user == null) {
+            return null;
         }
 
-        if (!user.getPassword().equals(userRequest.getPassword())){
+        if (!user.getPassword().equals(userRequest.getPassword())) {
             return null;
         }
 

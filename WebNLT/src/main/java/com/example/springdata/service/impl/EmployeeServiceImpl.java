@@ -49,8 +49,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                 request.getLastName(),
                 request.getAge());
 
-        if (existing == null){
-            return null;
+        if (existing != null) {
+            return existing.getId();
         }
 
         Employee employee = modelMapper.map(request, Employee.class);
@@ -63,6 +63,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employeeRepository.save(employee);
 
-        return existing.getId();
+        return employee.getId();
     }
 }

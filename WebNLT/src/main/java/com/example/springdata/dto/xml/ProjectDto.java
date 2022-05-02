@@ -17,9 +17,9 @@ public class ProjectDto {
     private Date startDate;
     @XmlElement(name = "is-finished")
     private boolean isFinished;
-    @XmlElement(name = "payment")
+    @XmlElement
     private BigDecimal payment;
-    @XmlElement(name = "company")
+    @XmlElement
     private CompanyDto company;
 
     public String getName() {
