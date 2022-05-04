@@ -1,5 +1,6 @@
 package com.example.springdata.service.impl;
 
+import com.example.springdata.dto.exportDto.ExportedEmployeesDto;
 import com.example.springdata.dto.xml.EmployeeDto;
 import com.example.springdata.entity.Employee;
 import com.example.springdata.entity.Project;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -64,5 +67,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.save(employee);
 
         return employee.getId();
+    }
+
+    @Override
+    public List<ExportedEmployeesDto> getEmployeesAfter25() {
+        return employeeRepository
+                .findAllByAgeAfter(25)
+                .stream().map(e->modelMapper.map(e, ExportedEmployeesDto.class))
+                .collect(Collectors.toList());
     }
 }
